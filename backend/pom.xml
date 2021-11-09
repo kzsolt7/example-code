@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.cavityeye</groupId>
+        <artifactId>xmanagement</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+
+    <groupId>com.cavityeye</groupId>
+    <artifactId>backend</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>backend</name>
+    <description>backend</description>
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy Vue.js frontend content</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>src/main/resources/public</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>${project.parent.basedir}/ui/target/dist</directory>
+                                    <includes>
+                                        <include>static/</include>
+                                        <include>icon/</include>
+                                        <include>index.html</include>
+                                        <include>lato/</include>
+                                        <include>Open_Sans/</include>
+                                        <include>Roboto/</include>
+                                        <include>style.css</include>
+                                        <include>ce.svg</include>
+                                        <include>logo.png</include>
+                                        <include>android-icon-36x36.png</include>
+                                        <include>android-icon-48x48.png</include>
+                                        <include>android-icon-72x72.png</include>
+                                        <include>android-icon-96x96.png</include>
+                                        <include>android-icon-144x144.png</include>
+                                        <include>android-icon-192x192.png</include>
+                                        <include>apple-icon.png</include>
+                                        <include>apple-icon-57x57.png</include>
+                                        <include>apple-icon-60x60.png</include>
+                                        <include>apple-icon-72x72.png</include>
+                                        <include>apple-icon-76x76.png</include>
+                                        <include>apple-icon-114x114.png</include>
+                                        <include>apple-icon-120x120.png</include>
+                                        <include>apple-icon-144x144.png</include>
+                                        <include>apple-icon-152x152.png</include>
+                                        <include>apple-icon-180x180.png</include>
+                                        <include>apple-icon-precomposed.png</include>
+                                        <include>browserconfig.xml</include>
+                                        <include>favicon-16x16.png</include>
+                                        <include>favicon-32x32.png</include>
+                                        <include>favicon-96x96.png</include>
+                                        <include>manifest.json</include>
+                                        <include>ms-icon-70x70.png</include>
+                                        <include>ms-icon-144x144.png</include>
+                                        <include>ms-icon-150x150.png</include>
+                                        <include>ms-icon-310x310.png</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>16</source>
+                    <target>16</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
