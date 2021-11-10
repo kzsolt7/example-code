@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import UserList from "@/views/user/UserList";
 import AddNewUser from "@/views/user/AddNewUser";
+import NotificationGroups from "@/views/user/NotificationGroups";
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/add-new-user',
     name: 'Add new user',
     component: AddNewUser
+  },
+  {
+    path:'/notification',
+    name: 'Notification group',
+    component: NotificationGroups
   },
   {
     path: '/about',
