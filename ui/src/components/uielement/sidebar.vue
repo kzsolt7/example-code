@@ -19,8 +19,10 @@
     <v-list dense>
       <v-list-item-group v-model="selectedItem" color="primary">
 
+        <v-subheader>Device management</v-subheader>
+
         <v-list-item
-            v-for="item in items"
+            v-for="item in deviceManagementItems"
             :key="item.title"
             link
             :to="item.url"
@@ -33,6 +35,24 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <v-subheader>User management</v-subheader>
+
+        <v-list-item
+            v-for="item in userManagementItems"
+            :key="item.title"
+            link
+            :to="item.url"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
@@ -48,9 +68,13 @@ export default {
     return {
       open: this.drawer,
       selectedItem: 0,
-      items: [
-        { title: 'Home', icon: 'mdi-view-dashboard', url: '/' },
-        { title: 'About', icon: 'mdi-forum', url: '/about' },
+      deviceManagementItems: [
+        { title: 'Device list', icon: 'mdi-view-dashboard', url: '/' },
+        { title: 'Software update', icon: 'mdi-forum', url: '/about' },
+      ],
+      userManagementItems: [
+        { title: 'User list', icon: 'mdi-view-dashboard', url: '/user-list' },
+        { title: 'Notifcation group', icon: 'mdi-forum', url: '/notifictaion' },
       ],
     }
   },
