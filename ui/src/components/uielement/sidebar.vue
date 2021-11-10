@@ -17,19 +17,23 @@
     <v-divider></v-divider>
 
     <v-list dense>
-      <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link
-      >
-        <v-list-item-icon>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-item-icon>
+      <v-list-item-group v-model="selectedItem" color="primary">
 
-        <v-list-item-content>
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+        <v-list-item
+            v-for="item in items"
+            :key="item.title"
+            link
+            :to="item.url"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -43,9 +47,10 @@ export default {
   data(){
     return {
       open: this.drawer,
+      selectedItem: 0,
       items: [
-        { title: 'Home', icon: 'mdi-view-dashboard' },
-        { title: 'About', icon: 'mdi-forum' },
+        { title: 'Home', icon: 'mdi-view-dashboard', url: '/' },
+        { title: 'About', icon: 'mdi-forum', url: '/about' },
       ],
     }
   },
