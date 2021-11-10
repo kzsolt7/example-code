@@ -5,19 +5,16 @@
       temporary
   >
     <v-list-item>
-      <v-list-item-avatar>
-        <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
-      </v-list-item-avatar>
 
       <v-list-item-content>
-        <v-list-item-title>John Leider</v-list-item-title>
+        <v-list-item-title>X manager</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
 
     <v-divider></v-divider>
 
     <v-list dense>
-      <v-list-item-group v-model="selectedItem" color="primary">
+      <v-list-item-group v-model="selectedItem" color="teal">
 
         <v-subheader>Device management</v-subheader>
 
