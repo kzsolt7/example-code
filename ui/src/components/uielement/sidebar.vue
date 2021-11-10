@@ -53,8 +53,46 @@
           </v-list-item-content>
         </v-list-item>
 
+        <v-subheader>Data analysis</v-subheader>
+
+        <v-list-item
+            v-for="item in dataAnalysisItems"
+            :key="item.title"
+            link
+            :to="item.url"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-subheader>Settings</v-subheader>
+
+        <v-list-item
+            v-for="item in settingsItems"
+            :key="item.title"
+            link
+            :to="item.url"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+
+
+
       </v-list-item-group>
     </v-list>
+
   </v-navigation-drawer>
 </template>
 
@@ -74,8 +112,25 @@ export default {
       ],
       userManagementItems: [
         { title: 'User list', icon: 'mdi-view-dashboard', url: '/user-list' },
-        { title: 'Notifcation group', icon: 'mdi-forum', url: '/notifictaion' },
+        { title: 'Notification groups', icon: 'mdi-forum', url: '/notification' },
+        { title: 'Permission groups', icon: 'mdi-forum', url: '/permission' },
+        { title: 'Add new user', icon: 'mdi-forum', url: '/add-new-user' },
+        { title: 'Add new group', icon: 'mdi-forum', url: '/add-new-group' },
+        { title: 'Export-import', icon: 'mdi-forum', url: '/export-import' },
+
       ],
+      dataAnalysisItems: [
+        { title: 'Realtime monitoring', icon: 'mdi-view-dashboard', url: '/realtime-monitoring' },
+        { title: 'Clamp analysis', icon: 'mdi-forum', url: '/clamp-analysis' },
+
+      ],
+
+      settingsItems: [
+        { title: 'Network management', icon: 'mdi-view-dashboard', url: '/network-management' },
+        { title: 'System update', icon: 'mdi-forum', url: '/system-update' },
+
+      ],
+
     }
   },
   watch:{
