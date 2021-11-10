@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import UserList from "@/views/user/UserList";
 import AddNewUser from "@/views/user/AddNewUser";
 import NotificationGroups from "@/views/user/NotificationGroups";
-import AddNewGroup from "@/views/group/AddNewGroup";
+import AddNewGroup from "@/views/user/AddNewGroup";
 
 
 Vue.use(VueRouter)

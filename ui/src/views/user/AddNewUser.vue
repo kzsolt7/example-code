@@ -71,7 +71,7 @@ export default {
       state: 'Active',
       groupItems: ['Engineer', 'Operator'],
       groupValue: [],
-      roleItems: ['Admin', 'User'],
+      roleItems: ['Can start measure', 'Set reference'],
       roleValue: [],
     }
   }

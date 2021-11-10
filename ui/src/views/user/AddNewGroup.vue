@@ -34,6 +34,7 @@ export default {
   data(){
     return{
       groupName:'',
+      state: 'Active',
       activeItems: ['Active', 'Inactive'],
       formModel: ''
      
