@@ -8,7 +8,9 @@
     >
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Title</v-toolbar-title>
+      <v-toolbar-title class="mr-16">{{ this.$route.name }}</v-toolbar-title>
+
+      <v-toolbar-title class="ml-16">{{ time }}</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -27,7 +29,7 @@
 
     <sidebar :drawer="drawer" @close-drawer="drawer = false"></sidebar>
 
-    <v-main style="border: 0px solid red; position: absolute; top:48px; bottom: 48px; left:20px; right: 20px;">
+    <v-main style="position: absolute; top:48px; bottom: 48px; left:20px; right: 20px;">
       <router-view/>
     </v-main>
     <v-footer padless absolute color="white">
@@ -51,7 +53,19 @@ export default {
     sidebar
   },
   data: () => ({
-    drawer: false
+    drawer: false,
+    time: new Date().toLocaleTimeString()
   }),
+  mounted() {
+    setInterval(() => {
+      this.createTimer()
+    }, 1000);
+  },
+  methods:{
+    createTimer() {
+      const d = new Date();
+      this.time = d.toLocaleTimeString();
+    }
+  }
 };
 </script>
