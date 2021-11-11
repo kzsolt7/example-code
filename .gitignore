@@ -1,4 +1,4 @@
 /ui/node_modules/
 /ui/node/
 /.idea/
-package-lock.json
+/ui/package-lock.json
