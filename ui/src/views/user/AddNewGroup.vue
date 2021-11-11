@@ -16,6 +16,7 @@
       <v-select
           :items="activeItems"
           v-model="state"
+          item-color="teal"
           label="Solo field"
           solo
       ></v-select>

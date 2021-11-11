@@ -20,13 +20,12 @@
             v-model="dialog"
             max-width="500px"
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template v-slot:activator="{ }">
             <v-btn
-                color="primary"
+                color="teal"
                 dark
                 class="mb-2"
-                v-bind="attrs"
-                v-on="on"
+                to="/add-new-user"
             >
               New user
             </v-btn>
@@ -139,7 +138,7 @@
     </template>
     <template v-slot:no-data>
       <v-btn
-          color="primary"
+          color="teal"
           @click="initialize"
       >
         Reset

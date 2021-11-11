@@ -30,6 +30,7 @@
       <v-select
           v-model="groupValue"
           :items="groupItems"
+          item-color="teal"
           chips
           label="Groups"
           multiple
@@ -39,6 +40,7 @@
       <v-select
           v-model="roleValue"
           :items="roleItems"
+          item-color="teal"
           chips
           label="Roles"
           multiple
@@ -47,6 +49,7 @@
 
       <v-select
           :items="activeItems"
+          item-color="teal"
           v-model="state"
           label="Solo field"
           solo

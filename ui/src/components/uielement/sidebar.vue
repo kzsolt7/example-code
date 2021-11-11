@@ -110,7 +110,7 @@ export default {
       userManagementItems: [
         { title: 'User list', icon: 'mdi-view-dashboard', url: '/user-list' },
         { title: 'Notification groups', icon: 'mdi-forum', url: '/notification' },
-        //{ title: 'Permission groups', icon: 'mdi-forum', url: '/permission' },
+        { title: 'Permission groups', icon: 'mdi-forum', url: '/permission' },
         { title: 'Add new user', icon: 'mdi-forum', url: '/add-new-user' },
         { title: 'Add new group', icon: 'mdi-forum', url: '/add-new-group' },
         { title: 'Export-import', icon: 'mdi-forum', url: '/export-import' },
