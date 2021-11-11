@@ -46,7 +46,7 @@
           solo
       ></v-select>
 
-      <v-btn color="teal" dark>Save</v-btn>
+      <v-btn color="teal" dark @click="saveUser">Save</v-btn>
 
     </v-form>
   </div>
@@ -65,6 +65,8 @@
 </template>
 
 <script>
+import {api} from "@/api";
+
 export default {
   name: "AddNewUser",
   data(){
@@ -80,6 +82,17 @@ export default {
       groupValue: [],
       roleItems: this.$store.getters.getRoleItems
 
+    }
+  },
+  methods: {
+    saveUser() {
+      api.post('/user', {
+        userName: this.userName,
+        email: this.userEmail,
+        password: this.userPassword,
+        groups: this.groupValue,
+        state: this.state
+      });
     }
   }
 }
