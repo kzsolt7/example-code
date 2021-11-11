@@ -132,20 +132,15 @@ export default {
         { title: 'Add new user', icon: 'mdi-account-plus', url: '/add-new-user' },
         { title: 'Add new group', icon: 'mdi-account-group', url: '/add-new-group' },
         { title: 'Export-import', icon: 'mdi-database-export', url: '/export-import' },
-
       ],
       dataAnalysisItems: [
         { title: 'Realtime monitoring', icon: 'mdi-monitor-eye', url: '/realtime-monitoring' },
         { title: 'Clamp analysis', icon: 'mdi-poll', url: '/clamp-analysis' },
-
       ],
-
       settingsItems: [
         { title: 'Network management', icon: 'mdi-lan-connect', url: '/network-management' },
         { title: 'System update', icon: 'mdi-cellphone-arrow-down', url: '/system-update' },
-
       ],
-
     }
   },
   watch:{
