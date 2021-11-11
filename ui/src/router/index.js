@@ -5,7 +5,7 @@ import UserList from "@/views/user/UserList";
 import AddNewUser from "@/views/user/AddNewUser";
 import NotificationGroups from "@/views/user/NotificationGroups";
 import AddNewGroup from "@/views/user/AddNewGroup";
-
+import PermissionGroups from "@/views/user/PermissionGroups";
 
 Vue.use(VueRouter)
 
@@ -29,6 +29,11 @@ const routes = [
     path:'/notification',
     name: 'Notification group',
     component: NotificationGroups
+  },
+  {
+    path:'/permission',
+    name: 'Permission group',
+    component: PermissionGroups
   },
   {
     path: '/add-new-group',
