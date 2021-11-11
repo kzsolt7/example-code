@@ -11,7 +11,8 @@
             v-model="groupName"
             :counter="10"
             label="Group name"
-            required
+            readonly
+
         ></v-text-field>
 
         <v-select
@@ -30,6 +31,7 @@
         <div v-for="roleItem in roleItems" v-bind:key="roleItem.value">
           <v-checkbox
               :label="roleItem.name"
+              v-model="asd"
               color="teal"
               :value="roleItem.value"
               hide-details
@@ -45,12 +47,12 @@ export default {
   name: "AddNewGroup.vue",
   data(){
     return{
-      groupName:'',
+      groupName:'Engineer',
+      asd: ['editEvaluationValueSettings', 'turnSensorsOnOff', 'enableDisablePartialSelect', 'setFirstSampRefLimit', 'importRefByHand'],
       state: 'Active',
       activeItems: ['Active', 'Inactive'],
       formModel: '',
       roleItems: this.$store.getters.getRoleItems
-     
     }
   }
 }

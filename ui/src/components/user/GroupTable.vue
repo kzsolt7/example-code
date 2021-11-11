@@ -205,6 +205,12 @@ export default {
           created: '2021-10-29',
 
         },
+        {
+          name: 'Machine adjuster',
+          state: 'Active',
+          created: '2021-09-23',
+
+        },
 
       ]
     },

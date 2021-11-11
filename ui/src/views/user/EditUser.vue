@@ -27,6 +27,7 @@
           v-model="userPassword"
           :counter="10"
           label="Password"
+          type="password"
           required
       ></v-text-field>
 
@@ -61,6 +62,7 @@
             color="teal"
             :value="roleItem.value"
             hide-details
+            v-model="asd"
         ></v-checkbox>
       </div>
     </div>
@@ -72,16 +74,17 @@ export default {
   name: "AddNewUser",
   data(){
     return{
-      userName:'',
-      userEmail:'',
-      userPassword:'',
+      userName:'Béla',
+      userEmail:'bela@cavityeye.com',
+      userPassword:'valamijelszo',
       formModel: '',
       activeItems: ['Active', 'Inactive'],
       state: 'Active',
       //groupItems: ['Engineer', 'Operator'],
       groupItems: this.$store.getters.getPermissionGroups,
-      groupValue: [],
-      roleItems: this.$store.getters.getRoleItems
+      groupValue: ['Engineer'],
+      roleItems: this.$store.getters.getRoleItems,
+      asd: ['editEvaluationValueSettings', 'turnSensorsOnOff', 'enableDisablePartialSelect', 'setFirstSampRefLimit', 'importRefByHand'],
 
     }
   }
