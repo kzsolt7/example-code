@@ -6,6 +6,7 @@ import AddNewUser from "@/views/user/AddNewUser";
 import NotificationGroups from "@/views/user/NotificationGroups";
 import AddNewGroup from "@/views/user/AddNewGroup";
 import PermissionGroups from "@/views/user/PermissionGroups";
+import ExportImport from "@/views/user/ExportImport";
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const routes = [
     path: '/add-new-group',
     name: 'Add new group',
     component: AddNewGroup
+  },
+  {
+    path: '/export-import',
+    name: 'Export import',
+    component: ExportImport
   },
   {
     path: '/about',
