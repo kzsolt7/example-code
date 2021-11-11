@@ -11,21 +11,18 @@
 
       <v-text-field
           v-model="userName"
-          :counter="10"
           label="Username"
           required
       ></v-text-field>
 
       <v-text-field
           v-model="userEmail"
-          :counter="10"
           label="Email"
           required
       ></v-text-field>
 
       <v-text-field
           v-model="userPassword"
-          :counter="10"
           label="Password"
           required
       ></v-text-field>

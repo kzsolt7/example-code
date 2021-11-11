@@ -9,7 +9,6 @@
 
         <v-text-field
             v-model="groupName"
-            :counter="10"
             label="Group name"
             readonly
 
