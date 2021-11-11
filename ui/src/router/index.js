@@ -7,6 +7,8 @@ import NotificationGroups from "@/views/user/NotificationGroups";
 import AddNewGroup from "@/views/user/AddNewGroup";
 import PermissionGroups from "@/views/user/PermissionGroups";
 import ExportImport from "@/views/user/ExportImport";
+import EditUser from "@/views/user/EditUser";
+import EditGroup from "@/views/user/EditGroup";
 
 Vue.use(VueRouter)
 
@@ -53,7 +55,17 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+  },
+  {
+    path: '/edit-user',
+    name: 'Edit user',
+    component: EditUser
+  },
+  {
+    path: '/edit-group',
+    name: 'Edit group',
+    component: EditGroup
+  },
 ]
 
 const router = new VueRouter({

@@ -223,10 +223,12 @@ export default {
       ]
     },
 
+    //id-t át kell adni paraméterként
     editItem (item) {
       this.editedIndex = this.users.indexOf(item)
       this.editedItem = Object.assign({}, item)
-      this.dialog = true
+      this.$router.push("/edit-user")
+      //this.dialog = true
     },
 
     deleteItem (item) {

@@ -212,7 +212,8 @@ export default {
     editItem (item) {
       this.editedIndex = this.users.indexOf(item)
       this.editedItem = Object.assign({}, item)
-      this.dialog = true
+      //this.dialog = true
+      this.$router.push("/edit-group")
     },
 
     deleteItem (item) {

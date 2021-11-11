@@ -33,7 +33,7 @@
           </template>
         </v-file-input>
 
-        <v-btn color="teal" dark>Load to file</v-btn>
+        <v-btn color="teal" dark>Load from file</v-btn>
 
       </v-card-text>
     </v-card>
