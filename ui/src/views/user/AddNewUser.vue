@@ -58,7 +58,7 @@
             color="teal"
             :value="roleItem.value"
             hide-details
-
+            v-model="permissions"
         ></v-checkbox>
       </div>
     </div>
