@@ -2,3 +2,6 @@
 /ui/node/
 /.idea/
 /ui/package-lock.json
+/ui/target
+/backend/target
+/backend/src/main/resources/public/
