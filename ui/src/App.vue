@@ -35,7 +35,7 @@
     <v-main style="position: absolute; top:48px; bottom: 48px; left:20px; right: 20px;">
       <router-view/>
     </v-main>
-    <v-footer padless absolute color="white">
+    <v-footer padless fixed color="white">
       <v-col
           class="text-center"
           cols="12"
