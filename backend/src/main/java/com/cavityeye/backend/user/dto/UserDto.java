@@ -11,7 +11,9 @@ public class UserDto {
 
     private String password;
 
-    private String[] groups;
+    private String[] permissionGroups;
+
+    private String[] permissions;
 
     private String state;
 

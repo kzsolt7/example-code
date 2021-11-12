@@ -58,6 +58,7 @@
             color="teal"
             :value="roleItem.value"
             hide-details
+
         ></v-checkbox>
       </div>
     </div>
@@ -80,7 +81,8 @@ export default {
       //groupItems: ['Engineer', 'Operator'],
       groupItems: this.$store.getters.getPermissionGroups,
       groupValue: [],
-      roleItems: this.$store.getters.getRoleItems
+      roleItems: this.$store.getters.getRoleItems,
+      permissions:[]
 
     }
   },
@@ -90,8 +92,9 @@ export default {
         userName: this.userName,
         email: this.userEmail,
         password: this.userPassword,
-        groups: this.groupValue,
-        state: this.state
+        permissionGroups: this.groupValue,
+        state: this.state,
+        permissions: this.permissions
       });
     }
   }
