@@ -15,31 +15,22 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
 
-    public void saveUser(UserDto user){
+    public void saveUser(UserDto user) {
         System.out.println(user);
         userRepository.save(user);
     }
 
-    public UserDto getUserById(String id){
-        System.out.println(id);
-        var user = new UserDto();
-        user.setUserName("Jani");
-        user.setEmail("Valami@gmail.com");
-        String[] permissions = {"editPfill","createEditRef"};
-        String[] permissionGroups = {"enginner","operator"};
-        user.setPermissions(permissions);
-        user.setPassword("janika345");
-        user.setPermissionGroups(permissionGroups);
-        user.setState("Active");
-        return user;
+    public UserDto getUserById(String id) {
+        var user = userRepository.findById(id);
+        return user.get();
     }
 
-    public List<UserDto> getAllUsers(){
+    public List<UserDto> getAllUsers() {
         var user = new UserDto();
         user.setUserName("Jani");
         user.setEmail("Valami@gmail.com");
-        String[] permissions = {"editPfill","createEditRef"};
-        String[] permissionGroups = {"enginner","operator"};
+        String[] permissions = {"editPfill", "createEditRef"};
+        String[] permissionGroups = {"enginner", "operator"};
         user.setPermissions(permissions);
         user.setPassword("janika345");
         user.setPermissionGroups(permissionGroups);
@@ -48,8 +39,8 @@ public class UserService {
         var user1 = new UserDto();
         user1.setUserName("Jani");
         user1.setEmail("Valami@gmail.com");
-        String[] permissions1 = {"editPfill","createEditRef"};
-        String[] permissionGroups1 = {"enginner","operator"};
+        String[] permissions1 = {"editPfill", "createEditRef"};
+        String[] permissionGroups1 = {"enginner", "operator"};
         user1.setPermissions(permissions1);
         user1.setPassword("janika345");
         user1.setPermissionGroups(permissionGroups1);
@@ -69,7 +60,7 @@ public class UserService {
         return getAllUsers();
     }
 
-    public List<NotificationGroupDto> getNotificationGroups(){
+    public List<NotificationGroupDto> getNotificationGroups() {
         return null;
     }
 
