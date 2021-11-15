@@ -116,13 +116,11 @@ export default {
       return date.toLocaleDateString();
     },
     getUsers() {
-      api.get("/user/all").then(r => this.users = r.data).then(v => console.log(v));
+      api.get("/user/all").then(r => this.users = r.data);
     },
     //id-t át kell adni paraméterként
     editItem (item) {
-      this.editedIndex = this.users.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.$router.push("/edit-user")
+      this.$router.push("/edit-user/" + item.id)
     },
 
     deleteItem (item) {
