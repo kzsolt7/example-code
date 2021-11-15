@@ -1,9 +1,11 @@
 package com.cavityeye.backend.user.dto;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 
 @Data
+@Document("notificationGroup")
 public class NotificationGroupDto {
 
     @Id
