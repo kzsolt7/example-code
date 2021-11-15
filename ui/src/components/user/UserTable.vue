@@ -29,6 +29,12 @@
         </v-dialog>
       </v-toolbar>
     </template>
+    <template v-slot:item.permissionGroups="{ item }">
+      <div>{{ item.permissionGroups.join(", ") }}</div>
+    </template>
+    <template v-slot:item.created="{ item }">
+      <p>{{ getTimestamp(item.id) }}</p>
+    </template>
     <template v-slot:item.actions="{ item }">
       <v-icon
           small
@@ -56,6 +62,8 @@
 </template>
 
 <script>
+import {api} from "@/api";
+
 export default {
   name: "UserTable",
   data: () => ({
@@ -65,9 +73,9 @@ export default {
         text: 'Username',
         align: 'start',
         sortable: false,
-        value: 'name',
+        value: 'userName',
       },
-      { text: 'Permission group', value: 'permissionGroup' },
+      { text: 'Permission group', value: 'permissionGroups' },
       { text: 'State', value: 'state' },
       { text: 'Created', value: 'created' },
       { text: 'Actions', value: 'actions', sortable: false },
@@ -75,7 +83,7 @@ export default {
     users: [],
     defaultItem: {
       name: '',
-      permissionGroup: '',
+      permissionGroups: '',
       state: '',
       created: '',
       protein: '',
@@ -100,25 +108,16 @@ export default {
 
   methods: {
     initialize () {
-      this.users = [
-        {
-          name: 'Lacika',
-          permissionGroup: 'Technológus',
-          state: 'Online',
-          created: '2021-11-11',
-
-        },
-        {
-          name: 'Béluka',
-          permissionGroup: 'Admin',
-          state: 'Offline',
-          created: '2021-10-29',
-
-        },
-
-      ]
+      this.getUsers();
     },
-
+    getTimestamp(id){
+      let timestamp = id.toString().substring(0,8);
+      let date = new Date( parseInt( timestamp, 16 ) * 1000 )
+      return date.toLocaleDateString();
+    },
+    getUsers() {
+      api.get("/user/all").then(r => this.users = r.data).then(v => console.log(v));
+    },
     //id-t át kell adni paraméterként
     editItem (item) {
       this.editedIndex = this.users.indexOf(item)
