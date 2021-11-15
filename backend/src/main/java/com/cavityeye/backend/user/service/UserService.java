@@ -3,16 +3,21 @@ package com.cavityeye.backend.user.service;
 import com.cavityeye.backend.user.dto.NotificationGroupDto;
 import com.cavityeye.backend.user.dto.PermissionGroupDto;
 import com.cavityeye.backend.user.dto.UserDto;
+import com.cavityeye.backend.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
+    private final UserRepository userRepository;
 
     public void saveUser(UserDto user){
         System.out.println(user);
+        userRepository.save(user);
     }
 
     public UserDto getUserById(String id){
