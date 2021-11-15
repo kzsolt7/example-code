@@ -13,6 +13,6 @@ public class NotificationGroupDto {
 
     private String name;
 
-    private String[] users; 
+    private String[] users;
 
 }

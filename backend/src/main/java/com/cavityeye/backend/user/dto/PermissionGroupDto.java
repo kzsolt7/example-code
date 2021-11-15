@@ -15,4 +15,6 @@ public class PermissionGroupDto {
 
     private String[] permissions;
 
+    private String state;
+
 }

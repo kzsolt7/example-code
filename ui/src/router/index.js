@@ -4,11 +4,13 @@ import Home from '../views/Home.vue'
 import UserList from "@/views/user/UserList";
 import AddNewUser from "@/views/user/AddNewUser";
 import NotificationGroups from "@/views/user/NotificationGroups";
-import AddNewGroup from "@/views/user/AddNewGroup";
+import AddNewPermissionGroup from "@/views/user/AddNewPermissionGroup";
 import PermissionGroups from "@/views/user/PermissionGroups";
 import ExportImport from "@/views/user/ExportImport";
 import EditUser from "@/views/user/EditUser";
 import EditGroup from "@/views/user/EditGroup";
+import AddNewNotificationGroup from "@/views/user/AddNewNotificationGroup";
+import EditPermissionGroup from "@/views/user/EditPermissionGroup";
 
 Vue.use(VueRouter)
 
@@ -37,11 +39,19 @@ const routes = [
     path:'/permission',
     name: 'Permission group',
     component: PermissionGroups
+  },{
+    path:'/edit-permission-group/:id',
+    name: 'Edit permission group',
+    component: EditPermissionGroup
   },
   {
-    path: '/add-new-group',
-    name: 'Add new group',
-    component: AddNewGroup
+    path: '/add-new-permission-group',
+    name: 'Add new permission group',
+    component: AddNewPermissionGroup
+  },{
+    path: '/add-new-notification-group',
+    name: 'Add new notification group',
+    component: AddNewNotificationGroup
   },
   {
     path: '/export-import',

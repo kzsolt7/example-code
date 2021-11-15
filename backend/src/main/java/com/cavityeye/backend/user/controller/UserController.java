@@ -66,6 +66,11 @@ public class UserController {
         return groupService.updatePermissionGroup(permissionGroup);
     }
 
+    @DeleteMapping("/permission-group")
+    public void deletePermissionGroup(@RequestParam String id){
+        groupService.deletePermissionGroup(id);
+    }
+
     //visszaadja a notofication group-okat és hogy milyen userek tartoznak bele
     @GetMapping("/notification-group/all")
     public List<NotificationGroupDto> getNotificationGroups() {

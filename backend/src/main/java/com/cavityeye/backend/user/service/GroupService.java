@@ -46,4 +46,8 @@ public class GroupService {
     public PermissionGroupDto updatePermissionGroup(PermissionGroupDto permissionGroup) {
         return permissionGroupRepository.save(permissionGroup);
     }
+
+    public void deletePermissionGroup(String id) {
+        permissionGroupRepository.delete(permissionGroupRepository.findById(id).get());
+    }
 }

@@ -22,5 +22,4 @@ public class UserDto {
     private String[] permissions;
 
     private String state;
-
 }

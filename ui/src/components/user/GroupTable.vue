@@ -1,7 +1,7 @@
 <template>
   <v-data-table
       :headers="headers"
-      :items="users"
+      :items="groupsData"
       sort-by="permissionGroup"
       class="elevation-1"
   >
@@ -9,7 +9,7 @@
       <v-toolbar
           flat
       >
-        <v-toolbar-title>Groups</v-toolbar-title>
+        <v-toolbar-title>{{ headerText }}</v-toolbar-title>
         <v-divider
             class="mx-4"
             inset
@@ -56,28 +56,23 @@
 </template>
 
 <script>
+import {api} from "@/api";
 export default {
   name: "GroupTable",
+  props: {
+    headerText: String,
+    headers: Array,
+    groupsData: Array
+  },
   data: () => ({
     dialogDelete: false,
-    headers: [
-      {
-        text: 'Group name',
-        align: 'start',
-        sortable: false,
-        value: 'name',
-      },
-      { text: 'State', value: 'state' },
-      { text: 'Created', value: 'created' },
-      { text: 'Actions', value: 'actions', sortable: false },
-    ],
-    users: [],
 
     defaultItem: {
       name: '',
       state: '',
       created: '',
       protein: '',
+      tempId: '',
     },
   }),
 
@@ -121,16 +116,33 @@ export default {
 
       ]
     },
+    editItem (item) {
+      this.$router.push("/edit-permission-group/" + item.id)
+    },
 
     deleteItem (item) {
       this.editedIndex = this.users.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
+      this.tempId=item.id
+
+
+
     },
 
     deleteItemConfirm () {
       this.users.splice(this.editedIndex, 1)
+
+
+      if(this.$route.name == "Permission group"){
+        api.delete("user/permission-group?id=" + this.tempId)
+      }
+      if(this.$route.name == "Notification group"){
+        api.delete("user/notification-group?id=" + this.tempId)
+      }
       this.closeDelete()
+      this.$emit("delete-item")
+
     },
 
 

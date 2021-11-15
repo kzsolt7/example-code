@@ -127,10 +127,11 @@ export default {
       ],
       userManagementItems: [
         { title: 'User list', icon: 'mdi-account-search', url: '/user-list' },
-        { title: 'Notification groups', icon: 'mdi-bell', url: '/notification' },
-        { title: 'Permission groups', icon: 'mdi-account-key', url: '/permission' },
         { title: 'Add new user', icon: 'mdi-account-plus', url: '/add-new-user' },
-        { title: 'Add new group', icon: 'mdi-account-group', url: '/add-new-group' },
+        { title: 'Notification groups', icon: 'mdi-bell', url: '/notification' },
+        { title: 'Add new notification group', icon: 'mdi-account-group', url: '/add-new-notification-group' },
+        { title: 'Permission groups', icon: 'mdi-account-key', url: '/permission' },
+        { title: 'Add new permission group', icon: 'mdi-account-group', url: '/add-new-permission-group' },
         { title: 'Export-import', icon: 'mdi-database-export', url: '/export-import' },
       ],
       dataAnalysisItems: [

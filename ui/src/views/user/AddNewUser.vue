@@ -24,6 +24,7 @@
         <v-text-field
             v-model="userPassword"
             label="Password"
+            type="password"
             required
         ></v-text-field>
 
