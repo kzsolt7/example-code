@@ -3,6 +3,7 @@ package com.cavityeye.backend.user.controller;
 import com.cavityeye.backend.user.dto.NotificationGroupDto;
 import com.cavityeye.backend.user.dto.PermissionGroupDto;
 import com.cavityeye.backend.user.dto.UserDto;
+import com.cavityeye.backend.user.service.GroupService;
 import com.cavityeye.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +14,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
+    private final GroupService groupService;
+
     private final UserService userService;
 
 
     @PostMapping()
-    public void createUser(@RequestBody UserDto user) {
-        userService.saveUser(user);
+    public UserDto createUser(@RequestBody UserDto user) {
+        return userService.saveUser(user);
     }
 
     @GetMapping()
@@ -41,26 +44,42 @@ public class UserController {
         return userService.getUsersByPermissionGroup();
     }
 
-    //visszaadja a notofication group-okat és hogy milyen userek tartoznak bele
-    @GetMapping("/notification-groups")
-    public List<NotificationGroupDto> getNotificationGroups() {
-        return userService.getNotificationGroups();
-    }
 
     //visszaadja a permission group-okat és, hogy milyen permission-ok tartoznak bele
     @GetMapping("/permission-group/all")
     public List<PermissionGroupDto> getPermissionGroup() {
-        return userService.getPermissionGroups();
+        return groupService.getPermissionGroups();
     }
 
     @PostMapping("/permission-group")
-    public void createPermissionGroup(@RequestBody PermissionGroupDto permissionGroup) {
-        userService.createPermissionGroup(permissionGroup);
+    public PermissionGroupDto createPermissionGroup(@RequestBody PermissionGroupDto permissionGroup) {
+        return groupService.createPermissionGroup(permissionGroup);
     }
 
     @GetMapping("/permission-group")
     public PermissionGroupDto getPermissionGroupById(@RequestParam String id){
-        return userService.getPermissionGroupById(id);
+        return groupService.getPermissionGroupById(id);
+    }
+
+    @PutMapping("/permission-group")
+    public PermissionGroupDto updatePermissionGroup(@RequestBody PermissionGroupDto permissionGroup){
+        return groupService.updatePermissionGroup(permissionGroup);
+    }
+
+    //visszaadja a notofication group-okat és hogy milyen userek tartoznak bele
+    @GetMapping("/notification-group/all")
+    public List<NotificationGroupDto> getNotificationGroups() {
+        return groupService.getNotificationGroups();
+    }
+
+    @PostMapping("/notification-group")
+    public NotificationGroupDto createNotificationGroup(@RequestBody NotificationGroupDto notificationGroup){
+        return groupService.createNotificationGroup(notificationGroup);
+    }
+
+    @GetMapping("/notification-group")
+    public NotificationGroupDto getNotificationGroupById(@RequestParam String id){
+        return groupService.getNotificationGroupById(id);
     }
 
 

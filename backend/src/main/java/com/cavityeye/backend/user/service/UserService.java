@@ -3,6 +3,7 @@ package com.cavityeye.backend.user.service;
 import com.cavityeye.backend.user.dto.NotificationGroupDto;
 import com.cavityeye.backend.user.dto.PermissionGroupDto;
 import com.cavityeye.backend.user.dto.UserDto;
+import com.cavityeye.backend.user.repository.NotificationGroupRepository;
 import com.cavityeye.backend.user.repository.PermissionGroupRepository;
 import com.cavityeye.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +16,10 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final PermissionGroupRepository permissionGroupRepository;
+    private final NotificationGroupRepository notificationGroupRepository;
 
-    public void saveUser(UserDto user) {
-        System.out.println(user);
-        userRepository.save(user);
+    public UserDto saveUser(UserDto user) {
+        return userRepository.save(user);
     }
 
     public UserDto getUserById(String id) {
@@ -39,20 +40,4 @@ public class UserService {
         return getAllUsers();
     }
 
-    public List<NotificationGroupDto> getNotificationGroups() {
-        return null;
-    }
-
-
-    public void createPermissionGroup(PermissionGroupDto permissionGroup) {
-        permissionGroupRepository.save(permissionGroup);
-    }
-
-    public List<PermissionGroupDto> getPermissionGroups() {
-        return permissionGroupRepository.findAll();
-    }
-
-    public PermissionGroupDto getPermissionGroupById(String id) {
-        return permissionGroupRepository.findById(id).get();
-    }
 }
