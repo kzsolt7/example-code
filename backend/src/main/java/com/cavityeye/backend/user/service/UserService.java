@@ -7,6 +7,7 @@ import com.cavityeye.backend.user.repository.NotificationGroupRepository;
 import com.cavityeye.backend.user.repository.PermissionGroupRepository;
 import com.cavityeye.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class UserService {
     private final NotificationGroupRepository notificationGroupRepository;
 
     public UserDto saveUser(UserDto user) {
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -28,8 +30,7 @@ public class UserService {
     }
 
     public List<UserDto> getAllUsers() {
-       var users = userRepository.findAll();
-        return users;
+        return userRepository.findAll();
     }
 
     public List<UserDto> getUsersByNotificationGroup() {
