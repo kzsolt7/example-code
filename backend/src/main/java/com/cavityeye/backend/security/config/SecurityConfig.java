@@ -32,15 +32,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/registration").permitAll()
-                .antMatchers("/api/user").permitAll()
-                .antMatchers("/api/**").hasAnyRole("engineer")
+                .antMatchers("/api/**").permitAll()
+//                .antMatchers("/api/**").hasAnyRole("engineer")
                 .antMatchers("/**").permitAll()
                 .antMatchers("/", "/static/**", "index.html", "/js/**", "/api", "/public/**",
                         "/favicon.ico", "/browserconfig.xml", "/manifest.json", "/*icon*.png", "/logo.png",
                         "/login", "/registration",
                         "/api/authenticate").permitAll()
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager()))
