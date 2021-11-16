@@ -25,11 +25,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserSecurityService userService;
 
-    /**
-     * Configure.
-     * @param http HttpSecurity.
-     * @throws Exception exception.
-     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -53,10 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-    /**
-     * Change auth provider.
-     * @param auth AuthenticationManagerBuilder.
-     */
     @Override
     public void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authProvider());
@@ -67,10 +58,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    /**
-     * Change auth provider.
-     * @return provider
-     */
     public AuthenticationProvider authProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userService);

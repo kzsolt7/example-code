@@ -1,7 +1,7 @@
 package com.cavityeye.backend.security.service;
 
 import com.cavityeye.backend.user.dto.UserDto;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,20 +11,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+@RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-    private UserDto user;
-
-    public UserDetailsImpl(UserDto user) {
-        this.user = user;
-    }
+    private final UserDto user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         List<GrantedAuthority> list = new ArrayList<>();
         Arrays.stream(user.getPermissions()).forEach(permission -> list.add(new SimpleGrantedAuthority("ROLE_" + permission)));
-
         return list;
     }
 

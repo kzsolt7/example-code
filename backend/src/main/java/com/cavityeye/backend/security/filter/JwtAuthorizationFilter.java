@@ -64,7 +64,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 logger.warn(String.format("Request to parse unsupported JWT : {} failed : {}", token, exception.getMessage()));
             } catch (MalformedJwtException exception) {
                 logger.warn(String.format("Request to parse invalid JWT : {} failed : {}", token, exception.getMessage()));
-            }  catch (IllegalArgumentException exception) {
+            } catch (IllegalArgumentException exception) {
                 logger.warn(String.format("Request to parse empty or null JWT : {} failed : {}", token, exception.getMessage()));
             }
         }

@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserSecurityService implements UserDetailsService {
+public class UserSecurityService implements UserDetailsService  {
 
     public final UserRepository userRepository;
 
@@ -24,6 +24,7 @@ public class UserSecurityService implements UserDetailsService {
         if (user.isEmpty()) {
             throw new UsernameNotFoundException(username);
         }
+
         return new UserDetailsImpl(user.get());
     }
 
