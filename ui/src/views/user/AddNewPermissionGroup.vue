@@ -4,7 +4,6 @@
       <v-form
           ref="form"
           v-model="formModel"
-          lazy-validation
       >
 
         <v-text-field
@@ -57,11 +56,16 @@ export default {
   },
   methods: {
     saveGroup() {
+      if (this.groupName)
       api.post('/user/permission-group', {
         name: this.groupName,
         permissions: this.permissions,
         state: this.state
-          });
+          }).then(r => {
+        if (r.status == 200) {
+          this.$router.push("/permission/new-success")
+        }
+      });
     }
   }
 }

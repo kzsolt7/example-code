@@ -17,6 +17,16 @@
         ></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialogDelete" max-width="500px">
+          <template v-slot:activator="{  }">
+            <v-btn
+                color="primary"
+                dark
+                class="mb-2"
+                @click="navigateToNew"
+            >
+              New group
+            </v-btn>
+          </template>
           <v-card>
             <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
             <v-card-actions>
@@ -57,6 +67,7 @@
 
 <script>
 import {api} from "@/api";
+
 export default {
   name: "GroupTable",
   props: {
@@ -77,23 +88,26 @@ export default {
   }),
 
   computed: {
-    formTitle () {
+    formTitle() {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     },
   },
 
   watch: {
-    dialogDelete (val) {
+    dialogDelete(val) {
       val || this.closeDelete()
     },
   },
 
-  created () {
+  created() {
     this.initialize()
   },
 
   methods: {
-    initialize () {
+    navigateToNew() {
+      this.$router.push('/add-new-' + this.$route.path.split('/')[1] + '-group')
+    },
+    initialize() {
       this.users = [
         {
           name: 'Engineer',
@@ -116,37 +130,37 @@ export default {
 
       ]
     },
-    editItem (item) {
-      this.$router.push("/edit-permission-group/" + item.id)
+    editItem(item) {
+      this.$router.push("/edit-" + this.$route.path.split('/')[1] + "-group/" + item.id)
     },
 
-    deleteItem (item) {
+    deleteItem(item) {
       this.editedIndex = this.users.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
-      this.tempId=item.id
-
+      this.tempId = item.id
 
 
     },
 
-    deleteItemConfirm () {
+    deleteItemConfirm() {
       this.users.splice(this.editedIndex, 1)
+      api.delete("user/"+ this.$route.path.split('/')[1] +"-group?id=" + this.tempId)
 
 
-      if(this.$route.name == "Permission group"){
+      /*if (this.$route.name == "Permission group") {
         api.delete("user/permission-group?id=" + this.tempId)
       }
-      if(this.$route.name == "Notification group"){
+      if (this.$route.name == "Notification group") {
         api.delete("user/notification-group?id=" + this.tempId)
-      }
+      }*/
       this.closeDelete()
       this.$emit("delete-item")
 
     },
 
 
-    closeDelete () {
+    closeDelete() {
       this.dialogDelete = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)

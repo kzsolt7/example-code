@@ -17,6 +17,16 @@
         ></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialogDelete" max-width="500px">
+          <template v-slot:activator="{  }">
+            <v-btn
+                color="primary"
+                dark
+                class="mb-2"
+                @click="$router.push('/add-new-user')"
+            >
+              New user
+            </v-btn>
+          </template>
           <v-card>
             <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
             <v-card-actions>
@@ -88,6 +98,7 @@ export default {
       created: '',
       protein: '',
     },
+
   }),
 
   computed: {

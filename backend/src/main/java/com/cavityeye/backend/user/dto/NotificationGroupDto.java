@@ -15,4 +15,6 @@ public class NotificationGroupDto {
 
     private String[] users;
 
+    private String state;
+
 }

@@ -40,4 +40,7 @@ public class UserService {
         return getAllUsers();
     }
 
+    public UserDto updateUser(UserDto user) {
+        return userRepository.save(user);
+    }
 }

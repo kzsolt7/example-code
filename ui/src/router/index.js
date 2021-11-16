@@ -11,6 +11,7 @@ import EditUser from "@/views/user/EditUser";
 import EditGroup from "@/views/user/EditGroup";
 import AddNewNotificationGroup from "@/views/user/AddNewNotificationGroup";
 import EditPermissionGroup from "@/views/user/EditPermissionGroup";
+import EditNotificationGroup from "@/views/user/EditNotificationGroup";
 
 Vue.use(VueRouter)
 
@@ -21,7 +22,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/user-list',
+    path: '/user-list/:status?',
     name: 'User list',
     component: UserList
   },
@@ -31,18 +32,24 @@ const routes = [
     component: AddNewUser
   },
   {
-    path:'/notification',
+    path:'/notification/:status?',
     name: 'Notification group',
     component: NotificationGroups
   },
   {
-    path:'/permission',
+    path:'/permission/:status?',
     name: 'Permission group',
     component: PermissionGroups
-  },{
+  },
+  {
     path:'/edit-permission-group/:id',
     name: 'Edit permission group',
     component: EditPermissionGroup
+  },
+  {
+    path:'/edit-notification-group/:id',
+    name: 'Edit notification group',
+    component: EditNotificationGroup
   },
   {
     path: '/add-new-permission-group',
