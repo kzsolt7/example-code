@@ -47,7 +47,7 @@
             solo
         ></v-select>
 
-        <v-btn color="teal" dark>Update</v-btn>
+        <v-btn color="teal" @click="saveUser" dark>Update</v-btn>
 
       </v-form>
     </div>
@@ -70,21 +70,21 @@
 import {api} from "@/api";
 
 export default {
-  name: "AddNewUser",
+  name: "EditUser",
   data() {
     return {
-      userName: 'Béla',
-      userEmail: 'bela@cavityeye.com',
-      userPassword: 'valamijelszo',
+      userName: '',
+      userEmail: '',
+      userPassword: '',
       formModel: '',
       activeItems: ['Active', 'Inactive'],
-      state: 'Active',
+      state: '',
       //groupItems: ['Engineer', 'Operator'],
       groupItems: this.$store.getters.getPermissionGroups,
-      groupValue: ['Engineer'],
+      groupValue: [''],
       roleItems: this.$store.getters.getRoleItems,
-      roleValues: ['editEvaluationValueSettings', 'turnSensorsOnOff', 'enableDisablePartialSelect', 'setFirstSampRefLimit', 'importRefByHand'],
-
+      roleValues: [],
+      id: ""
     }
   },
   mounted() {
@@ -94,6 +94,7 @@ export default {
     init() {
       api.get("user?id=" + this.$route.params.id)
           .then(r => {
+                this.id = r.data.id
                 this.userName = r.data.userName
                 this.userEmail = r.data.email
                 this.userPassword = r.data.password
@@ -102,7 +103,24 @@ export default {
                 this.roleValues = r.data.permissions
               }
           );
-    }
+    },
+    saveUser() {
+      if (this.userName && this.userPassword)
+        api.put('/user', {
+          id: this.id,
+          userName: this.userName,
+          permissions: this.roleValues,
+          permissionGroups: this.groupValue,
+          password: this.userPassword,
+          state: this.state,
+          email: this.userEmail
+      }).then(r => {
+          if (r.status == 200) {
+
+            this.$router.push("/user-list/update-success")
+          }
+        });
+    },
   }
 }
 </script>

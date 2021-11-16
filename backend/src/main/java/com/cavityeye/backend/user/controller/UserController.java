@@ -44,6 +44,11 @@ public class UserController {
         return userService.getUsersByPermissionGroup();
     }
 
+    @PutMapping()
+    public UserDto updateUser(@RequestBody UserDto user){
+        return userService.updateUser(user);
+    }
+
 
     //visszaadja a permission group-okat és, hogy milyen permission-ok tartoznak bele
     @GetMapping("/permission-group/all")
@@ -87,6 +92,14 @@ public class UserController {
         return groupService.getNotificationGroupById(id);
     }
 
+    @PutMapping("/notification-group")
+    public NotificationGroupDto updateNotificationGroup(@RequestBody NotificationGroupDto notificationGroup){
+        return groupService.updateNotificationGroup(notificationGroup);
+    }
 
+    @DeleteMapping("/notification-group")
+    public void deleteNotificationGroup(@RequestParam String id){
+        groupService.deleteNotificationGroup(id);
+    }
 
-}
+    }

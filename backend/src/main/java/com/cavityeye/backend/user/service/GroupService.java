@@ -50,4 +50,12 @@ public class GroupService {
     public void deletePermissionGroup(String id) {
         permissionGroupRepository.delete(permissionGroupRepository.findById(id).get());
     }
+
+    public void deleteNotificationGroup(String id) {
+        notificationGroupRepository.delete(notificationGroupRepository.findById(id).get());
+    }
+
+    public NotificationGroupDto updateNotificationGroup(NotificationGroupDto notificationGroup) {
+        return notificationGroupRepository.save(notificationGroup);
+    }
 }

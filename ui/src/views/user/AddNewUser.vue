@@ -6,7 +6,6 @@
       <v-form
           ref="form"
           v-model="formModel"
-          lazy-validation
       >
 
         <v-text-field
@@ -25,7 +24,6 @@
             v-model="userPassword"
             label="Password"
             type="password"
-            required
         ></v-text-field>
 
         <v-select
@@ -47,7 +45,7 @@
             solo
         ></v-select>
 
-        <v-btn color="teal" dark @click="saveUser">Save</v-btn>
+        <v-btn @click="saveUser" color="teal" dark>Save</v-btn>
 
       </v-form>
     </div>
@@ -70,6 +68,7 @@
 import {api} from "@/api";
 
 export default {
+
   name: "AddNewUser",
   data() {
     return {
@@ -83,20 +82,27 @@ export default {
       groupItems: this.$store.getters.getPermissionGroups,
       groupValue: [],
       roleItems: this.$store.getters.getRoleItems,
-      permissions:[]
+      permissions: [],
+      status: ''
 
     }
   },
   methods: {
     saveUser() {
-      api.post('/user', {
-        userName: this.userName,
-        email: this.userEmail,
-        password: this.userPassword,
-        permissionGroups: this.groupValue,
-        state: this.state,
-        permissions: this.permissions
-      });
+      if (this.userName && this.userPassword)
+        api.post('/user', {
+          userName: this.userName,
+          email: this.userEmail,
+          password: this.userPassword,
+          permissionGroups: this.groupValue,
+          state: this.state,
+          permissions: this.permissions
+        }).then(r => {
+          if (r.status == 200) {
+            this.$router.push("/user-list/new-success")
+          }
+        });
+
     }
   }
 }

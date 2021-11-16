@@ -20,7 +20,7 @@
             label="Solo field"
             solo
         ></v-select>
-        <v-btn color="teal" dark>Save</v-btn>
+        <v-btn color="teal" @click="saveGroup" dark>Save</v-btn>
       </v-form>
     </div>
 
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import {api} from "@/api";
+
 export default {
   name: "AddNewGroup.vue",
   data() {
@@ -50,6 +52,20 @@ export default {
       formModel: '',
       roleItems: this.$store.getters.getRoleItems
 
+    }
+  },
+  methods:{
+    saveGroup() {
+      if (this.groupName)
+        api.post('/user/notification-group', {
+          name: this.groupName,
+          permissions: this.permissions,
+          state: this.state
+        }).then(r => {
+          if (r.status == 200) {
+            this.$router.push("/notification/new-success")
+          }
+        });
     }
   }
 }

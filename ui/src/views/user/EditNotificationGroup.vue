@@ -44,7 +44,7 @@
 import {api} from "@/api";
 
 export default {
-  name: "EditPermissionGroup.vue",
+  name: "EditNotificationGroup.vue",
   data() {
     return {
       id: '',
@@ -62,20 +62,20 @@ export default {
   methods: {
     saveGroup() {
       if (this.groupName)
-        api.put('/user/permission-group', {
+        api.put('/user/notification-group', {
           id: this.id,
           name: this.groupName,
           permissions: this.permissions,
           state: this.state
         }).then(r => {
           if (r.status == 200) {
-            this.$router.push("/permission/update-success")
+            this.$router.push("/notification/update-success")
           }
         });
     },
 
     init() {
-      api.get("user/permission-group?id=" + this.$route.params.id).then(r => {
+      api.get("user/notification-group?id=" + this.$route.params.id).then(r => {
         this.groupName = r.data.name
         this.state = r.data.state
         this.permissions = r.data.permissions
