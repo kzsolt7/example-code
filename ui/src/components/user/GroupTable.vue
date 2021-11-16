@@ -55,12 +55,7 @@
       </v-icon>
     </template>
     <template v-slot:no-data>
-      <v-btn
-          color="teal"
-          @click="initialize"
-      >
-        Reset
-      </v-btn>
+    <div>No data available</div>
     </template>
   </v-data-table>
 </template>
