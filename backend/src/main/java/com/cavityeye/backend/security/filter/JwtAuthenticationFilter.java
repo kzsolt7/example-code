@@ -59,7 +59,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .setExpiration(new Date(System.currentTimeMillis() + 864000000))
                 .claim("rol", roles)
                 .compact();
+
+        String refreshToken = Jwts.builder()
+                .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
+                .setHeaderParam("typ", SecurityConstants.TOKEN_TYPE)
+                .setIssuer(SecurityConstants.TOKEN_ISSUER)
+                .setAudience(SecurityConstants.TOKEN_AUDIENCE)
+                .setSubject(user.getUsername())
+                .setSubject(user.getPassword())
+                .setExpiration(new Date(System.currentTimeMillis() + 8640000000000L))
+                .compact();
+
         response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token);
+        response.addHeader(SecurityConstants.TOKEN_HEADER_REFRESH, refreshToken);
     }
 }
 
