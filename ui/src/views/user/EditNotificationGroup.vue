@@ -11,6 +11,7 @@
             v-model="groupName"
             label="Group name"
             required
+            :rules="groupRules"
         ></v-text-field>
 
         <v-select
@@ -53,7 +54,10 @@ export default {
       activeItems: ['Active', 'Inactive'],
       formModel: '',
       roleItems: this.$store.getters.getRoleItems,
-      permissions: []
+      permissions: [],
+      groupRules: [
+        v => !!v || 'Group name is required',
+      ],
     }
   },
   mounted() {

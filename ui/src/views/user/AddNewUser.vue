@@ -12,6 +12,7 @@
             v-model="userName"
             label="Username"
             required
+            :rules="userRules"
         ></v-text-field>
 
         <v-text-field
@@ -24,6 +25,7 @@
             v-model="userPassword"
             label="Password"
             type="password"
+            :rules="passwordRules"
         ></v-text-field>
 
         <v-select
@@ -83,8 +85,13 @@ export default {
       groupValue: [],
       roleItems: this.$store.getters.getRoleItems,
       permissions: [],
-      status: ''
-
+      status: '',
+      userRules: [
+        v => !!v || 'Username is required',
+      ],
+      passwordRules: [
+        v => !!v || 'Password is required',
+      ],
     }
   },
   methods: {

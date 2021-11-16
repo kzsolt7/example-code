@@ -141,14 +141,6 @@ export default {
     deleteItemConfirm() {
       this.users.splice(this.editedIndex, 1)
       api.delete("user/"+ this.$route.path.split('/')[1] +"-group?id=" + this.tempId)
-
-
-      /*if (this.$route.name == "Permission group") {
-        api.delete("user/permission-group?id=" + this.tempId)
-      }
-      if (this.$route.name == "Notification group") {
-        api.delete("user/notification-group?id=" + this.tempId)
-      }*/
       this.closeDelete()
       this.$emit("delete-item")
 
