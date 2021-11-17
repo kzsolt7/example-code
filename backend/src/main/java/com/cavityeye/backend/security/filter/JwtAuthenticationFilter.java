@@ -66,12 +66,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .setIssuer(SecurityConstants.TOKEN_ISSUER)
                 .setAudience(SecurityConstants.TOKEN_AUDIENCE)
                 .setSubject(user.getUsername())
-                .setSubject(user.getPassword())
                 .setExpiration(new Date(System.currentTimeMillis() + 8640000000000L))
                 .compact();
 
         response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token);
         response.addHeader(SecurityConstants.TOKEN_HEADER_REFRESH, refreshToken);
+        response.addHeader("username", user.getUsername());
     }
 }
 

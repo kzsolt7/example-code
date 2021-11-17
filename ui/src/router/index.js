@@ -12,6 +12,7 @@ import EditGroup from "@/views/user/EditGroup";
 import AddNewNotificationGroup from "@/views/user/AddNewNotificationGroup";
 import EditPermissionGroup from "@/views/user/EditPermissionGroup";
 import EditNotificationGroup from "@/views/user/EditNotificationGroup";
+import Login from "@/views/Login";
 
 Vue.use(VueRouter)
 
@@ -20,6 +21,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
   },
   {
     path: '/user-list/:status?',
