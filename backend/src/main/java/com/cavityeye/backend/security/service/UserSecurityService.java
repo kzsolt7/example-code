@@ -19,7 +19,7 @@ public class UserSecurityService implements UserDetailsService  {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<UserDto> user = Optional.ofNullable(userRepository.findByUserName(username));
+        var user = userRepository.findByUserName(username);
 
         if (user.isEmpty()) {
             throw new UsernameNotFoundException(username);

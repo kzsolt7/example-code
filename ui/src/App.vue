@@ -14,7 +14,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-menu left bottom>
+      <v-menu left bottom :disabled="!this.$store.getters.getUsername">
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-account-circle-outline</v-icon>
@@ -22,7 +22,7 @@
         </template>
 
         <v-list>
-          <v-list-item @click="() => {}">
+          <v-list-item @click="logout">
             <v-list-item-title>Logout</v-list-item-title>
           </v-list-item>
         </v-list>
@@ -62,6 +62,9 @@ export default {
     time: new Date().toLocaleTimeString()
   }),
   mounted() {
+    if (this.$cookies.get("username")) {
+      this.$store.commit("setUserName", this.$cookies.get("username"))
+    }
     setInterval(() => {
       this.createTimer()
     }, 1000);
@@ -70,6 +73,12 @@ export default {
     createTimer() {
       const d = new Date();
       this.time = d.toLocaleTimeString();
+    },
+    logout() {
+      this.$store.commit("logout");
+      this.$cookies.remove("access-token");
+      this.$cookies.remove("refresh-token");
+      this.$router.push("login")
     }
   }
 };
