@@ -102,4 +102,10 @@ public class UserController {
         groupService.deleteNotificationGroup(id);
     }
 
+    @GetMapping("/create-admin-user")
+    public void createAdminUser() {
+        userService.createAdminUser();
     }
+}
+
+
