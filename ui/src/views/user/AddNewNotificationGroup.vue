@@ -42,6 +42,7 @@
 
 <script>
 import {api} from "@/api";
+import VueCookies from "vue-cookies";
 
 export default {
   name: "AddNewGroup.vue",
@@ -67,7 +68,8 @@ export default {
           state: this.state
         }).then(r => {
           if (r.status == 200) {
-            this.$router.push("/notification/new-success")
+            VueCookies.set('success' , 'new-success', "10s")
+            this.$router.push("/notification")
           }
         });
     }

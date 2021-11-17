@@ -18,6 +18,7 @@
 <script>
 import GroupTable from "@/components/user/GroupTable";
 import {api} from "@/api";
+import VueCookies from "vue-cookies";
 
 export default {
   name: "NotificationGroups",
@@ -55,12 +56,11 @@ export default {
       api.get('/user/notification-group/all').then(r => this.groupsData = r.data)
     },
     init() {
-      console.log(this.$route.params.status)
-      if (this.$route.params.status == "new-success") {
-        this.successMessage = "Group successfully added."
+      if (VueCookies.get("success") == "new-success") {
+        this.successMessage = "Group successfully created."
         this.isSuccess = true
       }
-      if (this.$route.params.status == "update-success") {
+      if(VueCookies.get("success") == "update-success"){
         this.successMessage = "Group successfully updated."
         this.isSuccess = true;
       }

@@ -68,6 +68,7 @@
 
 <script>
 import {api} from "@/api";
+import VueCookies from 'vue-cookies';
 
 export default {
 
@@ -96,6 +97,7 @@ export default {
   },
   methods: {
     saveUser() {
+      this.$refs.form.validate()
       if (this.userName && this.userPassword)
         api.post('/user', {
           userName: this.userName,
@@ -106,7 +108,8 @@ export default {
           permissions: this.permissions
         }).then(r => {
           if (r.status == 200) {
-            this.$router.push("/user-list/new-success")
+            VueCookies.set('success' , 'new-success', "10s")
+            this.$router.push("/user-list")
           }
         });
 

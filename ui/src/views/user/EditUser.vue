@@ -48,6 +48,7 @@
         ></v-select>
 
         <v-btn color="teal" @click="saveUser" dark>Update</v-btn>
+        <v-btn style="margin-left: 30px" color="grey" @click="$router.push('/user-list')" dark>Cancel</v-btn>
 
       </v-form>
     </div>
@@ -68,6 +69,7 @@
 
 <script>
 import {api} from "@/api";
+import VueCookies from "vue-cookies";
 
 export default {
   name: "EditUser",
@@ -116,8 +118,8 @@ export default {
           email: this.userEmail
       }).then(r => {
           if (r.status == 200) {
-
-            this.$router.push("/user-list/update-success")
+            VueCookies.set('success' , 'update-success', "10s")
+            this.$router.push("/user-list")
           }
         });
     },

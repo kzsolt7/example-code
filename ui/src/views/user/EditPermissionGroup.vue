@@ -43,6 +43,7 @@
 
 <script>
 import {api} from "@/api";
+import VueCookies from "vue-cookies";
 
 export default {
   name: "EditPermissionGroup.vue",
@@ -73,7 +74,8 @@ export default {
           state: this.state
         }).then(r => {
           if (r.status == 200) {
-            this.$router.push("/permission/update-success")
+            VueCookies.set('success' , 'update-success', "10s")
+            this.$router.push("/permission")
           }
         });
     },

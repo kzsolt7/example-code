@@ -11,7 +11,7 @@
 
 <script>
 import UserTable from "@/components/user/UserTable";
-
+import VueCookies from 'vue-cookies';
 export default {
   name: "UserList",
   components: {
@@ -33,12 +33,11 @@ export default {
   },
   methods: {
     init() {
-      console.log(this.$route.params.status)
-      if (this.$route.params.status == "new-success") {
+      if (VueCookies.get("success") == "new-success") {
         this.successMessage = "User successfully added."
         this.isSuccess = true
       }
-      if(this.$route.params.status == "update-success"){
+      if(VueCookies.get("success") == "update-success"){
         this.successMessage = "User successfully updated."
         this.isSuccess = true;
       }
