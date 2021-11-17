@@ -39,6 +39,7 @@ export default {
         if (r.status === 200) {
           this.$cookies.set("access-token", r.headers.authorization, "1d");
           this.$cookies.set("refresh-token", r.headers.refresh, "10d");
+          this.$cookies.set("username", r.headers.username, "10d");
           this.$store.commit("setUserName", r.headers.username)
           this.$router.push("/")
         }

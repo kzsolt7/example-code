@@ -13,7 +13,7 @@ export const User = {
         logout(state) {
             state.username = '';
             state.roles = [];
-        }
+        },
     },
     getters: {
         getUsername: state => state.username,
