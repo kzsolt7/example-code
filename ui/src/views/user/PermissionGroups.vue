@@ -18,7 +18,6 @@
 <script>
 import GroupTable from "@/components/user/GroupTable";
 import {api} from "@/api";
-import VueCookies from "vue-cookies";
 
 export default {
   name: "PermissionGroups",
@@ -56,11 +55,11 @@ export default {
       api.get('/user/permission-group/all').then(r => this.groupsData = r.data)
     },
     init() {
-      if (VueCookies.get("success") == "new-success") {
+      if (this.$cookies.get("success") == "new-success") {
         this.successMessage = "Group successfully created."
         this.isSuccess = true
       }
-      if(VueCookies.get("success") == "update-success"){
+      if(this.$cookies.get("success") == "update-success"){
         this.successMessage = "Group successfully updated."
         this.isSuccess = true;
       }

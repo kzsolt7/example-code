@@ -48,7 +48,7 @@
         ></v-select>
 
         <v-btn color="teal" @click="saveUser" dark>Update</v-btn>
-        <v-btn style="margin-left: 30px" color="grey" @click="$router.push('/user-list')" dark>Cancel</v-btn>
+        <v-btn style="margin-left: 20px" color="grey" @click="$router.go(-1)" dark>Cancel</v-btn>
 
       </v-form>
     </div>

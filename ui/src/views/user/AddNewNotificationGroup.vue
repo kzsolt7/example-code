@@ -22,6 +22,7 @@
             solo
         ></v-select>
         <v-btn color="teal" @click="saveGroup" dark>Save</v-btn>
+        <v-btn style="margin-left: 20px" color="grey" @click="$router.go(-1)" dark>Cancel</v-btn>
       </v-form>
     </div>
 
