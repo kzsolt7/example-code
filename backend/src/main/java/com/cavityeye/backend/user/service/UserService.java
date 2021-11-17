@@ -73,19 +73,24 @@ public class UserService {
         "updateSoftware",
         "editNetworkSettings",
         "editDeviceDefaultSettings"};
+        String[] persmissionGroups = {"admin"};
 
         var user = new UserDto();
         var existUser = userRepository.findByUserName("ce");
 
         if(existUser.isEmpty()) {
-            var permissionGroups = new PermissionGroupDto();
-            permissionGroups.setName("admin");
-            permissionGroups.setPermissions(permissions);
-            permissionGroupRepository.save(permissionGroups);
+            var permissionGroup = new PermissionGroupDto();
+            permissionGroup.setName("admin");
+            permissionGroup.setState("Active");
+            permissionGroup.setPermissions(permissions);
+            permissionGroupRepository.save(permissionGroup);
 
             user.setUserName("ce");
+            user.setEmail("ce@cavityeye.com");
+            user.setPermissionGroups(persmissionGroups);
             user.setPassword(new BCryptPasswordEncoder().encode("cesuper"));
             user.setPermissions(permissions);
+            user.setState("Active");
             userRepository.save(user);
         }
     }
