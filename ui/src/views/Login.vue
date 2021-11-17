@@ -36,9 +36,12 @@ export default {
   methods: {
     login() {
       api.post(`authenticate?username=${this.username}&password=${this.password}`).then(r => {
-        console.log(r.headers.username)
-        this.$cookies.set("access-token", r.headers.authorization, "1d")
-        this.$cookies.set("refresh-token", r.headers.refresh, "10d")
+        if (r.status === 200) {
+          this.$cookies.set("access-token", r.headers.authorization, "1d");
+          this.$cookies.set("refresh-token", r.headers.refresh, "10d");
+          this.$store.commit("setUserName", r.headers.username)
+          this.$router.push("/")
+        }
       });
     }
   }

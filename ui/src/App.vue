@@ -22,7 +22,7 @@
         </template>
 
         <v-list>
-          <v-list-item @click="() => {}">
+          <v-list-item @click="logout">
             <v-list-item-title>Logout</v-list-item-title>
           </v-list-item>
         </v-list>
@@ -70,6 +70,12 @@ export default {
     createTimer() {
       const d = new Date();
       this.time = d.toLocaleTimeString();
+    },
+    logout() {
+      this.$store.commit("logout");
+      this.$cookies.remove("access-token");
+      this.$cookies.remove("refresh-token");
+      this.$router.push("login")
     }
   }
 };
