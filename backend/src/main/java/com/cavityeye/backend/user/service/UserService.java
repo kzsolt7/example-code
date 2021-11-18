@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,11 +30,15 @@ public class UserService {
 
     public UserDto getUserById(String id) {
         var user = userRepository.findById(id);
+        user.get().setPermissions(UserPermission(user.get()));
         return user.get();
     }
 
+
     public List<UserDto> getAllUsers() {
-        return userRepository.findAll();
+        var users = userRepository.findAll();
+        users.forEach(user -> user.setPermissions(UserPermission(user)));
+        return users;
     }
 
     public List<UserDto> getUsersByNotificationGroup() {
@@ -93,5 +98,21 @@ public class UserService {
             user.setState("Active");
             userRepository.save(user);
         }
+    }
+
+    private String[] UserPermission(UserDto user) {
+        List<String> userPermissions = new ArrayList<>();
+
+        Arrays.stream(user.getPermissions()).forEach(r -> userPermissions.add(r));
+
+        Arrays.stream(user.getPermissionGroups()).forEach(permission -> {
+            var groupPermission = permissionGroupRepository.findByName(permission).get().getPermissions();
+            Arrays.stream(groupPermission).forEach(r -> userPermissions.add(r));
+        });
+
+        String[] stringArray = userPermissions.toArray(new String[0]);
+
+        return stringArray;
+
     }
 }
