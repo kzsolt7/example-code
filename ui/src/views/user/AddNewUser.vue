@@ -33,9 +33,10 @@
             :items="groupItems"
             item-color="teal"
             chips
-            label="Groups"
+            label="Permission groups"
             multiple
             solo
+            @change="groupSelectChanged"
         ></v-select>
 
 
@@ -61,6 +62,7 @@
             :value="roleItem.value"
             hide-details
             v-model="permissions"
+            :disabled="roleItem.disabled"
         ></v-checkbox>
       </div>
     </div>
@@ -83,11 +85,13 @@ export default {
       activeItems: ['Active', 'Inactive'],
       state: 'Active',
       //groupItems: ['Engineer', 'Operator'],
-      groupItems: this.$store.getters.getPermissionGroups,
+      groupItems: [],
       groupValue: [],
       roleItems: this.$store.getters.getRoleItems,
       permissions: [],
+      permissionsFromGroups: [],
       status: '',
+      permissionGroupsObject: [],
       userRules: [
         v => !!v || 'Username is required',
       ],
@@ -109,12 +113,51 @@ export default {
           permissions: this.permissions
         }).then(r => {
           if (r.status == 200) {
-            VueCookies.set('success' , 'new-success', "10s")
+            VueCookies.set('success', 'new-success', "10s")
             this.$router.push("/user-list")
           }
         });
 
+    },
+    init() {
+      api.get('user/permission-group/all').then(r => {
+        this.permissionGroupsObject = r.data
+        //console.log(r.data)
+        for (let item in r.data) {
+          this.groupItems.push(r.data[item].name)
+        }
+      })
+    },
+    groupSelectChanged() {
+      this.permissions = []
+
+      for (let item in this.groupValue) {
+        for (let elem in this.permissionGroupsObject) {
+          if (this.groupValue[item] == this.permissionGroupsObject[elem].name) {
+            //console.log(this.groupValue[item])
+            this.permissions.push.apply(this.permissions, this.permissionGroupsObject[elem].permissions)
+          }
+        }
+      }
+      this.permissionsFromGroups = this.permissions
+      //console.log(this.permissionsFromGroups)
+      for (let el in this.roleItems) {
+        //console.log(this.permissionsFromGroups[item])
+        this.roleItems[el].disabled=false
+        for (let item in this.permissionsFromGroups ) {
+          // console.log(this.permissionsFromGroups[item])
+          // console.log(this.roleItems[el].value)
+          if (this.permissionsFromGroups[item] == this.roleItems[el].value) {
+            this.roleItems[el].disabled = true
+
+            //console.log(this.roleItems)
+          }
+        }
+      }
     }
+  },
+  mounted() {
+    this.init()
   }
 }
 </script>
