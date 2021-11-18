@@ -28,13 +28,13 @@
 
     <div class="col-md-6" style="max-height: 90vh; overflow-y: scroll">
 
-      <div v-for="roleItem in roleItems" v-bind:key="roleItem.value">
+      <div v-for="user in users" v-bind:key="user.value">
         <v-checkbox
-            :label="roleItem.name"
+            :label="user.userName"
             color="teal"
-            :value="roleItem.value"
+            :value="user.userName"
             hide-details
-            v-model="permissions"
+            v-model="usersInGroup"
         ></v-checkbox>
       </div>
     </div>
@@ -56,10 +56,11 @@ export default {
       activeItems: ['Active', 'Inactive'],
       formModel: '',
       roleItems: this.$store.getters.getRoleItems,
-      permissions: [],
+      usersInGroup: [],
       groupRules: [
         v => !!v || 'Group name is required',
       ],
+      users: [],
     }
   },
   mounted() {
@@ -72,10 +73,11 @@ export default {
           id: this.id,
           name: this.groupName,
           permissions: this.permissions,
-          state: this.state
+          state: this.state,
+          users: this.usersInGroup
         }).then(r => {
           if (r.status == 200) {
-            VueCookies.set('success' , 'update-success', "10s")
+            VueCookies.set('success', 'update-success', "10s")
             this.$router.push("/notification")
           }
         });
@@ -83,12 +85,15 @@ export default {
 
     init() {
       api.get("user/notification-group?id=" + this.$route.params.id).then(r => {
-        this.groupName = r.data.name
-        this.state = r.data.state
-        this.permissions = r.data.permissions
-        this.id = r.data.id
-      })
-    }
+            this.groupName = r.data.name
+            this.state = r.data.state
+            this.id = r.data.id
+            this.usersInGroup = r.data.users
+          },
+      )
+      api.get('/user/all').then(r => this.users = r.data)
+    },
+
   }
 }
 </script>
