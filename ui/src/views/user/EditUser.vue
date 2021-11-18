@@ -36,6 +36,7 @@
             label="Groups"
             multiple
             solo
+            @change="groupSelectChanged"
         ></v-select>
 
 
@@ -60,7 +61,8 @@
             color="teal"
             :value="roleItem.value"
             hide-details
-            v-model="roleValues"
+            v-model="permissions"
+            :disabled="roleItem.disabled"
         ></v-checkbox>
       </div>
     </div>
@@ -80,13 +82,22 @@ export default {
       userPassword: '',
       formModel: '',
       activeItems: ['Active', 'Inactive'],
-      state: '',
+      state: 'Active',
       //groupItems: ['Engineer', 'Operator'],
-      groupItems: this.$store.getters.getPermissionGroups,
-      groupValue: [''],
+      groupItems: [],
+      groupValue: [],
       roleItems: this.$store.getters.getRoleItems,
-      roleValues: [],
-      id: ""
+      permissions: [],
+      permissionsFromGroups: [],
+      status: '',
+      permissionGroupsObject: [],
+      userRules: [
+        v => !!v || 'Username is required',
+      ],
+      passwordRules: [
+        v => !!v || 'Password is required',
+      ],
+      id: '',
     }
   },
   mounted() {
@@ -102,28 +113,61 @@ export default {
                 this.userPassword = r.data.password
                 this.state = r.data.state
                 this.groupValue = r.data.permissionGroups
-                this.roleValues = r.data.permissions
+                this.permissions = r.data.permissions
               }
           );
+      api.get('user/permission-group/all').then(r => {
+        this.permissionGroupsObject = r.data
+        //console.log(r.data)
+        for (let item in r.data) {
+          this.groupItems.push(r.data[item].name)
+        }
+        this.groupSelectChanged()
+      })
     },
     saveUser() {
+      let permissionsToPost = this.permissions.filter(x => !this.permissionsFromGroups.includes(x))
       if (this.userName && this.userPassword)
         api.put('/user', {
           id: this.id,
           userName: this.userName,
-          permissions: this.roleValues,
+          permissions: permissionsToPost,
           permissionGroups: this.groupValue,
           password: this.userPassword,
           state: this.state,
           email: this.userEmail
-      }).then(r => {
+        }).then(r => {
           if (r.status == 200) {
-            VueCookies.set('success' , 'update-success', "10s")
+            VueCookies.set('success', 'update-success', "10s")
             this.$router.push("/user-list")
           }
         });
     },
-  }
+    groupSelectChanged() {
+      this.permissions = this.permissions.filter(x => !this.permissionsFromGroups.includes(x))
+      this.permissionsFromGroups = []
+      for (let item in this.groupValue) {
+        for (let elem in this.permissionGroupsObject) {
+          if (this.groupValue[item] == this.permissionGroupsObject[elem].name) {
+            this.permissionsFromGroups.push.apply(this.permissionsFromGroups, this.permissionGroupsObject[elem].permissions)
+          }
+        }
+      }
+      for (let el in this.roleItems) {
+
+        this.roleItems[el].disabled=false
+        for (let item in this.permissionsFromGroups ) {
+          if (this.permissionsFromGroups[item] == this.roleItems[el].value) {
+            this.roleItems[el].disabled = true
+
+          }
+        }
+      }
+      this.permissions.push.apply(this.permissions,this.permissionsFromGroups)
+
+    }
+  },
+
 }
 </script>
 

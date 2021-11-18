@@ -103,6 +103,7 @@ export default {
   methods: {
     saveUser() {
       this.$refs.form.validate()
+      let permissionsToPost = this.permissions.filter(x => !this.permissionsFromGroups.includes(x))
       if (this.userName && this.userPassword)
         api.post('/user', {
           userName: this.userName,
@@ -110,7 +111,7 @@ export default {
           password: this.userPassword,
           permissionGroups: this.groupValue,
           state: this.state,
-          permissions: this.permissions
+          permissions: permissionsToPost
         }).then(r => {
           if (r.status == 200) {
             VueCookies.set('success', 'new-success', "10s")
@@ -122,38 +123,33 @@ export default {
     init() {
       api.get('user/permission-group/all').then(r => {
         this.permissionGroupsObject = r.data
-        //console.log(r.data)
         for (let item in r.data) {
           this.groupItems.push(r.data[item].name)
         }
+        this.groupSelectChanged()
       })
     },
     groupSelectChanged() {
-      this.permissions = []
-
+      this.permissions = this.permissions.filter(x => !this.permissionsFromGroups.includes(x))
+      this.permissionsFromGroups = []
       for (let item in this.groupValue) {
         for (let elem in this.permissionGroupsObject) {
           if (this.groupValue[item] == this.permissionGroupsObject[elem].name) {
-            //console.log(this.groupValue[item])
-            this.permissions.push.apply(this.permissions, this.permissionGroupsObject[elem].permissions)
+            this.permissionsFromGroups.push.apply(this.permissionsFromGroups, this.permissionGroupsObject[elem].permissions)
           }
         }
       }
-      this.permissionsFromGroups = this.permissions
-      //console.log(this.permissionsFromGroups)
       for (let el in this.roleItems) {
-        //console.log(this.permissionsFromGroups[item])
+
         this.roleItems[el].disabled=false
         for (let item in this.permissionsFromGroups ) {
-          // console.log(this.permissionsFromGroups[item])
-          // console.log(this.roleItems[el].value)
           if (this.permissionsFromGroups[item] == this.roleItems[el].value) {
             this.roleItems[el].disabled = true
-
-            //console.log(this.roleItems)
           }
         }
       }
+      this.permissions.push.apply(this.permissions,this.permissionsFromGroups)
+
     }
   },
   mounted() {

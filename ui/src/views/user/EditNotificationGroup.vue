@@ -26,18 +26,38 @@
       </v-form>
     </div>
 
-    <div class="col-md-6" style="max-height: 90vh; overflow-y: scroll">
-
-      <div v-for="user in users" v-bind:key="user.value">
+    <div class="col-md-3" style="max-height: 90vh; overflow-y: scroll">
+      <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+          @keyup="searchInUsers(search)"
+      ></v-text-field>
+      <div v-for="user in unTicked" v-bind:key="user.id">
         <v-checkbox
             :label="user.userName"
             color="teal"
             :value="user.userName"
             hide-details
             v-model="usersInGroup"
+            @click="clear"
         ></v-checkbox>
       </div>
+    </div> <div class="col-md-3" style="max-height: 90vh; overflow-y: scroll">
+
+    <div v-for="user in ticked" v-bind:key="user.id">
+      <v-checkbox
+          :label="user.userName"
+          color="teal"
+          :value="user.userName"
+          hide-details
+          v-model="usersInGroup"
+          @click="clear"
+      ></v-checkbox>
     </div>
+  </div>
   </v-row>
 
 </template>
@@ -55,12 +75,16 @@ export default {
       state: 'Active',
       activeItems: ['Active', 'Inactive'],
       formModel: '',
-      roleItems: this.$store.getters.getRoleItems,
-      usersInGroup: [],
+      //roleItems: this.$store.getters.getRoleItems,
+      users: '',
+      usersToDisplay: '',
       groupRules: [
         v => !!v || 'Group name is required',
       ],
-      users: [],
+      usersInGroup: [],
+      search: '',
+      unTicked: [],
+      ticked :[]
     }
   },
   mounted() {
@@ -91,10 +115,59 @@ export default {
             this.usersInGroup = r.data.users
           },
       )
-      api.get('/user/all').then(r => this.users = r.data)
+      api.get('/user/all').then(r => {
+            this.users = r.data
+            this.usersToDisplay = r.data
+            this.clear()
+          }
+      )
     },
+    searchInUsers(text) {
+      this.unTicked = this.users.filter(item => item.userName.toUpperCase().includes(text.toUpperCase()))
+    },
+    clear() {
+      this.search = ''
+      this.searchInUsers('')
+      let sorted = {}
+      let unTicked = {}
+      let i = 0
+      let j = 0
+      let ticked = {}
+      //console.log(this.usersToDisplay)
+      for (let item in this.usersToDisplay) {
+        let b = false
+        for (let user in this.usersInGroup) {
+          if (this.usersInGroup[user] === this.usersToDisplay[item].userName) {
+            sorted[i] = this.usersToDisplay[item]
+            ticked[i] = this.usersToDisplay[item]
 
-  }
+            i++
+            //console.log(this.usersToDisplay[item].userName)
+            b = true
+            break
+          }
+
+        }
+        this.ticked=ticked
+        if (!b) {
+          unTicked[j] = this.usersToDisplay[item]
+          j++
+        }
+      }
+      console.log(this.ticked)
+      for (let item in unTicked) {
+        //console.log(unTicked[item])
+        sorted[i] = unTicked[item]
+        i++
+      }
+      //console.log(sorted)
+      this.usersToDisplay = {}
+      this.usersToDisplay = sorted
+      this.unTicked = unTicked
+    }
+  },
+
+
 }
 </script>
 
