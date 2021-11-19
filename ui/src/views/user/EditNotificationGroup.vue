@@ -154,7 +154,7 @@ export default {
           j++
         }
       }
-      console.log(this.ticked)
+
       for (let item in unTicked) {
         //console.log(unTicked[item])
         sorted[i] = unTicked[item]

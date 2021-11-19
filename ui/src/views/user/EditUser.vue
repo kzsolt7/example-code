@@ -8,7 +8,6 @@
           v-model="formModel"
           lazy-validation
       >
-
         <v-text-field
             v-model="userName"
             label="Username"
@@ -23,7 +22,7 @@
 
         <v-text-field
             v-model="userPassword"
-            label="Password"
+            label="Add new password here (if it's empty, password won't be updated)"
             type="password"
             required
         ></v-text-field>
@@ -110,7 +109,7 @@ export default {
                 this.id = r.data.id
                 this.userName = r.data.userName
                 this.userEmail = r.data.email
-                this.userPassword = r.data.password
+                //this.userPassword = r.data.password
                 this.state = r.data.state
                 this.groupValue = r.data.permissionGroups
                 this.permissions = r.data.permissions
@@ -123,11 +122,13 @@ export default {
           this.groupItems.push(r.data[item].name)
         }
         this.groupSelectChanged()
+      }).then(() => {
+        this.groupSelectChanged()
       })
     },
     saveUser() {
       let permissionsToPost = this.permissions.filter(x => !this.permissionsFromGroups.includes(x))
-      if (this.userName && this.userPassword)
+      if (this.userName)
         api.put('/user', {
           id: this.id,
           userName: this.userName,
@@ -154,20 +155,16 @@ export default {
         }
       }
       for (let el in this.roleItems) {
-
-        this.roleItems[el].disabled=false
-        for (let item in this.permissionsFromGroups ) {
+        this.roleItems[el].disabled = false
+        for (let item in this.permissionsFromGroups) {
           if (this.permissionsFromGroups[item] == this.roleItems[el].value) {
             this.roleItems[el].disabled = true
-
           }
         }
       }
-      this.permissions.push.apply(this.permissions,this.permissionsFromGroups)
-
+      this.permissions.push.apply(this.permissions, this.permissionsFromGroups)
     }
   },
-
 }
 </script>
 

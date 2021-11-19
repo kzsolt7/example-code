@@ -53,12 +53,6 @@
       >
         mdi-pencil
       </v-icon>
-      <v-icon
-          small
-          @click="deleteItem(item)"
-      >
-        mdi-delete
-      </v-icon>
     </template>
     <template v-slot:no-data>
       <div>No data available</div>
@@ -80,10 +74,10 @@ export default {
         sortable: false,
         value: 'userName',
       },
-      { text: 'Permission group', value: 'permissionGroups' },
-      { text: 'State', value: 'state' },
-      { text: 'Created', value: 'created' },
-      { text: 'Actions', value: 'actions', sortable: false },
+      {text: 'Permission group', value: 'permissionGroups'},
+      {text: 'State', value: 'state'},
+      {text: 'Created', value: 'created'},
+      {text: 'Actions', value: 'actions', sortable: false},
     ],
     users: [],
     defaultItem: {
@@ -97,51 +91,51 @@ export default {
   }),
 
   computed: {
-    formTitle () {
+    formTitle() {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     },
   },
 
   watch: {
-    dialogDelete (val) {
+    dialogDelete(val) {
       val || this.closeDelete()
     },
   },
 
-  created () {
+  created() {
     this.initialize()
   },
 
   methods: {
-    initialize () {
+    initialize() {
       this.getUsers();
     },
-    getTimestamp(id){
-      let timestamp = id.toString().substring(0,8);
-      let date = new Date( parseInt( timestamp, 16 ) * 1000 )
+    getTimestamp(id) {
+      let timestamp = id.toString().substring(0, 8);
+      let date = new Date(parseInt(timestamp, 16) * 1000)
       return date.toLocaleDateString();
     },
     getUsers() {
       api.get("/user/all").then(r => this.users = r.data);
     },
     //id-t át kell adni paraméterként
-    editItem (item) {
+    editItem(item) {
       this.$router.push("/edit-user/" + item.id)
     },
 
-    deleteItem (item) {
+    deleteItem(item) {
       this.editedIndex = this.users.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
 
-    deleteItemConfirm () {
+    deleteItemConfirm() {
       this.users.splice(this.editedIndex, 1)
       this.closeDelete()
     },
 
 
-    closeDelete () {
+    closeDelete() {
       this.dialogDelete = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)

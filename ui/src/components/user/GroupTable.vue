@@ -37,6 +37,25 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+
+
+        <v-dialog v-model="dialogGroupIsNotEmpty" max-width="500px">
+          <template v-slot:activator="{  }">
+
+          </template>
+          <v-card>
+            <v-card-title class="text-h5">The group cannot be deleted because it is not empty</v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+<!--              <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>-->
+<!--              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>-->
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+
+
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
@@ -55,7 +74,7 @@
       </v-icon>
     </template>
     <template v-slot:no-data>
-    <div>No data available</div>
+      <div>No data available</div>
     </template>
   </v-data-table>
 </template>
@@ -72,6 +91,7 @@ export default {
   },
   data: () => ({
     dialogDelete: false,
+    dialogGroupIsNotEmpty: false,
 
     defaultItem: {
       name: '',
@@ -132,15 +152,21 @@ export default {
     deleteItem(item) {
       this.editedIndex = this.users.indexOf(item)
       this.editedItem = Object.assign({}, item)
-      this.dialogDelete = true
       this.tempId = item.id
-
+      api.get("user/in-permission-group?groupName=" + item.name).then(r => {
+        if (r.data.length > 0) {
+          this.dialogGroupIsNotEmpty = true
+        }
+        else{
+          this.dialogDelete = true
+        }
+      })
 
     },
 
     deleteItemConfirm() {
       this.users.splice(this.editedIndex, 1)
-      api.delete("user/"+ this.$route.path.split('/')[1] +"-group?id=" + this.tempId)
+      api.delete("user/" + this.$route.path.split('/')[1] + "-group?id=" + this.tempId)
       this.closeDelete()
       this.$emit("delete-item")
 

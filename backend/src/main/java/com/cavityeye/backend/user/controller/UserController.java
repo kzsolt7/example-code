@@ -41,7 +41,7 @@ public class UserController {
 
     @GetMapping("/in-permission-group")
     public List<UserDto> getUsersByPermissionGroup(@RequestParam String groupName) {
-        return userService.getUsersByPermissionGroup();
+        return userService.getUsersByPermissionGroup(groupName);
     }
 
     @PutMapping()

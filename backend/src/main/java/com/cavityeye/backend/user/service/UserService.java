@@ -11,10 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -45,45 +42,59 @@ public class UserService {
         return getAllUsers();
     }
 
-    public List<UserDto> getUsersByPermissionGroup() {
-        return getAllUsers();
+    public List<UserDto> getUsersByPermissionGroup(String groupName) {
+        List<UserDto> users = new ArrayList<>();
+        getAllUsers().forEach((user) -> {
+            for (String permissionGroup : user.getPermissionGroups()) {
+                if (Objects.equals(permissionGroup, groupName)) {
+                    users.add(user);
+                }
+            }
+        });
+        return users;
     }
 
     public UserDto updateUser(UserDto user) {
+        if (user.getPassword().equals("")) {
+            user.setPassword(userRepository.findByUserName(user.getUserName()).get().getPassword());
+        } else {
+            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        }
+
         return userRepository.save(user);
     }
 
     public void createAdminUser() {
         String[] permissions = {
-        "setFirstSampRefLimit",
-        "setRefDefault",
-        "importRefByHand",
-        "setSampTime",
-        "createEditRef",
-        "editPfillTcool",
-        "editEvaluationValueSettings",
-        "editLimits",
-        "turnSensorsOnOff",
-        "enableDisableCycleStop",
-        "editCycleStopCond",
-        "enableDisableSwitchover",
-        "editSwitchoverCondSettings",
-        "enableDisablePartialSelect",
-        "editPartialSelect",
-        "editSelectorSignalLength",
-        "enableDisableSurveillance",
-        "editMoldManagerSettings",
-        "manageUsers",
-        "editSetIMM",
-        "updateSoftware",
-        "editNetworkSettings",
-        "editDeviceDefaultSettings"};
+                "setFirstSampRefLimit",
+                "setRefDefault",
+                "importRefByHand",
+                "setSampTime",
+                "createEditRef",
+                "editPfillTcool",
+                "editEvaluationValueSettings",
+                "editLimits",
+                "turnSensorsOnOff",
+                "enableDisableCycleStop",
+                "editCycleStopCond",
+                "enableDisableSwitchover",
+                "editSwitchoverCondSettings",
+                "enableDisablePartialSelect",
+                "editPartialSelect",
+                "editSelectorSignalLength",
+                "enableDisableSurveillance",
+                "editMoldManagerSettings",
+                "manageUsers",
+                "editSetIMM",
+                "updateSoftware",
+                "editNetworkSettings",
+                "editDeviceDefaultSettings"};
         String[] persmissionGroups = {"admin"};
 
         var user = new UserDto();
         var existUser = userRepository.findByUserName("ce");
 
-        if(existUser.isEmpty()) {
+        if (existUser.isEmpty()) {
             var permissionGroup = new PermissionGroupDto();
             permissionGroup.setName("admin");
             permissionGroup.setState("Active");
@@ -115,4 +126,5 @@ public class UserService {
         return stringArray;
 
     }
+
 }

@@ -124,7 +124,6 @@ export default {
       let i = 0
       let j = 0
       let ticked = {}
-      //console.log(this.usersToDisplay)
       for (let item in this.usersToDisplay) {
         let b = false
         for (let user in this.usersInGroup) {
@@ -133,7 +132,6 @@ export default {
             ticked[i] = this.usersToDisplay[item]
 
             i++
-            //console.log(this.usersToDisplay[item].userName)
             b = true
             break
           }
@@ -145,7 +143,6 @@ export default {
           j++
         }
       }
-      console.log(this.ticked)
       for (let item in unTicked) {
         //console.log(unTicked[item])
         sorted[i] = unTicked[item]
