@@ -65,9 +65,12 @@ export default {
     if (this.$cookies.get("username")) {
       this.$store.commit("setUserName", this.$cookies.get("username"))
     }
+
     setInterval(() => {
       this.createTimer()
     }, 1000);
+
+    this.$store.dispatch("getPermissions")
   },
   methods:{
     createTimer() {

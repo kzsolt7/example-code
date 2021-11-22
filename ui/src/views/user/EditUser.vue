@@ -123,7 +123,9 @@ export default {
         }
         this.groupSelectChanged()
       }).then(() => {
-        this.groupSelectChanged()
+        setTimeout(() => {
+          this.groupSelectChanged()
+        }, 100)
       })
     },
     saveUser() {
@@ -163,6 +165,17 @@ export default {
         }
       }
       this.permissions.push.apply(this.permissions, this.permissionsFromGroups)
+    }
+  },
+  computed: {
+    getRoleList() {
+      return this.$store.getters.getRoleItems;
+    }
+  },
+  watch: {
+    getRoleList(value) {
+      this.roleItems = value;
+      this.groupSelectChanged();
     }
   },
 }

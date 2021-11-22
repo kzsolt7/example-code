@@ -154,7 +154,17 @@ export default {
   },
   mounted() {
     this.init()
-  }
+  },
+  computed: {
+    getRoleList() {
+      return this.$store.getters.getRoleItems;
+    }
+  },
+  watch: {
+    getRoleList(value) {
+      this.roleItems = value;
+    }
+  },
 }
 </script>
 
