@@ -1,12 +1,14 @@
 package com.cavityeye.backend.user.controller;
 
 import com.cavityeye.backend.user.dto.NotificationGroupDto;
+import com.cavityeye.backend.user.dto.PermissionDto;
 import com.cavityeye.backend.user.dto.PermissionGroupDto;
 import com.cavityeye.backend.user.dto.UserDto;
 import com.cavityeye.backend.user.service.GroupService;
 import com.cavityeye.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -45,7 +47,7 @@ public class UserController {
     }
 
     @PutMapping()
-    public UserDto updateUser(@RequestBody UserDto user){
+    public UserDto updateUser(@RequestBody UserDto user) {
         return userService.updateUser(user);
     }
 
@@ -62,17 +64,17 @@ public class UserController {
     }
 
     @GetMapping("/permission-group")
-    public PermissionGroupDto getPermissionGroupById(@RequestParam String id){
+    public PermissionGroupDto getPermissionGroupById(@RequestParam String id) {
         return groupService.getPermissionGroupById(id);
     }
 
     @PutMapping("/permission-group")
-    public PermissionGroupDto updatePermissionGroup(@RequestBody PermissionGroupDto permissionGroup){
+    public PermissionGroupDto updatePermissionGroup(@RequestBody PermissionGroupDto permissionGroup) {
         return groupService.updatePermissionGroup(permissionGroup);
     }
 
     @DeleteMapping("/permission-group")
-    public void deletePermissionGroup(@RequestParam String id){
+    public void deletePermissionGroup(@RequestParam String id) {
         groupService.deletePermissionGroup(id);
     }
 
@@ -83,28 +85,33 @@ public class UserController {
     }
 
     @PostMapping("/notification-group")
-    public NotificationGroupDto createNotificationGroup(@RequestBody NotificationGroupDto notificationGroup){
+    public NotificationGroupDto createNotificationGroup(@RequestBody NotificationGroupDto notificationGroup) {
         return groupService.createNotificationGroup(notificationGroup);
     }
 
     @GetMapping("/notification-group")
-    public NotificationGroupDto getNotificationGroupById(@RequestParam String id){
+    public NotificationGroupDto getNotificationGroupById(@RequestParam String id) {
         return groupService.getNotificationGroupById(id);
     }
 
     @PutMapping("/notification-group")
-    public NotificationGroupDto updateNotificationGroup(@RequestBody NotificationGroupDto notificationGroup){
+    public NotificationGroupDto updateNotificationGroup(@RequestBody NotificationGroupDto notificationGroup) {
         return groupService.updateNotificationGroup(notificationGroup);
     }
 
     @DeleteMapping("/notification-group")
-    public void deleteNotificationGroup(@RequestParam String id){
+    public void deleteNotificationGroup(@RequestParam String id) {
         groupService.deleteNotificationGroup(id);
     }
 
     @GetMapping("/create-admin-user")
     public void createAdminUser() {
         userService.createAdminUser();
+    }
+
+    @GetMapping("/permissions")
+    public List<PermissionDto> getPermissions() {
+        return groupService.getPermissions();
     }
 }
 
