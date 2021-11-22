@@ -1,17 +1,17 @@
 package com.cavityeye.backend.user.service;
 
-import com.cavityeye.backend.user.dto.NotificationGroupDto;
 import com.cavityeye.backend.user.dto.PermissionGroupDto;
 import com.cavityeye.backend.user.dto.UserDto;
-import com.cavityeye.backend.user.repository.NotificationGroupRepository;
 import com.cavityeye.backend.user.repository.PermissionGroupRepository;
 import com.cavityeye.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +19,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PermissionGroupRepository permissionGroupRepository;
+    private final GroupService groupService;
 
     public UserDto saveUser(UserDto user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
@@ -65,30 +66,11 @@ public class UserService {
     }
 
     public void createAdminUser() {
-        String[] permissions = {
-                "setFirstSampRefLimit",
-                "setRefDefault",
-                "importRefByHand",
-                "setSampTime",
-                "createEditRef",
-                "editPfillTcool",
-                "editEvaluationValueSettings",
-                "editLimits",
-                "turnSensorsOnOff",
-                "enableDisableCycleStop",
-                "editCycleStopCond",
-                "enableDisableSwitchover",
-                "editSwitchoverCondSettings",
-                "enableDisablePartialSelect",
-                "editPartialSelect",
-                "editSelectorSignalLength",
-                "enableDisableSurveillance",
-                "editMoldManagerSettings",
-                "manageUsers",
-                "editSetIMM",
-                "updateSoftware",
-                "editNetworkSettings",
-                "editDeviceDefaultSettings"};
+        String[] permissions = new String[groupService.getPermissions().size()];
+        for(int i=0; i<groupService.getPermissions().size();i++){
+            permissions[i]=groupService.getPermissions().get(i).getValue();
+        }
+
         String[] persmissionGroups = {"admin"};
 
         var user = new UserDto();

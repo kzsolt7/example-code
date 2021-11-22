@@ -63,22 +63,15 @@ public class GroupService {
 
     public List<PermissionDto> getPermissions() {
         var permissions = new ArrayList<PermissionDto>();
-
         permissions.add(new PermissionDto("Set first sampling, reference, limit", "setFirstSampRefLimit"));
         permissions.add(new PermissionDto("Set ref default", "setRefDefault"));
         permissions.add(new PermissionDto("Import reference by hand", "importRefByHand"));
-        permissions.add(new PermissionDto("Set sampling time", "setSampTime"));
-        permissions.add(new PermissionDto("Create, edit, reference", "createEditRef"));
-        permissions.add(new PermissionDto("Edit Pfill, Tcool", "editPfillTcool"));
-        permissions.add(new PermissionDto("Edit evaluation value settings", "editEvaluationValueSettings"));
-        permissions.add(new PermissionDto("Edit limits", "editLimits"));
+        permissions.add(new PermissionDto("Set sampling time, Create/delete reference, Edit Pfill/Tcool", "setSampTimeRefPfillTcool"));
+        permissions.add(new PermissionDto("Edit limits and evaluation value settings", "editLimitsEvaluationValueSettings"));
         permissions.add(new PermissionDto("Turn sensor on/off", "turnSensorsOnOff"));
-        permissions.add(new PermissionDto("Enable/disable cycle stop", "enableDisableCycleStop"));
-        permissions.add(new PermissionDto("Edit cycle stop condition", "editCycleStopCond"));
-        permissions.add(new PermissionDto("Enable/disable switchover", "enableDisableSwitchover"));
-        permissions.add(new PermissionDto("Edit switchover condition settings", "editSwitchoverCondSettings"));
-        permissions.add(new PermissionDto("Enable/disable partial select", "enableDisablePartialSelect"));
-        permissions.add(new PermissionDto("Edit partial select", "editPartialSelect"));
+        permissions.add(new PermissionDto("Enable/disable/edit cycle stop and condition", "enableDisableEditCycleStopAndCond"));
+        permissions.add(new PermissionDto("Enable/disable/edit switchover and condition settings", "enableDisableEditSwitchoverCondSettings"));
+        permissions.add(new PermissionDto("Enable/disable/edit partial select", "enableDisableEditPartialSelect"));
         permissions.add(new PermissionDto("Edit selector signal length", "editSelectorSignalLength"));
         permissions.add(new PermissionDto("Enable/disable surveillance", "enableDisableSurveillance"));
         permissions.add(new PermissionDto("Edit mold manager settings", "editMoldManagerSettings"));
