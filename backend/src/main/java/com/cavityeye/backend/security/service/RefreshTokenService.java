@@ -1,82 +1,73 @@
 package com.cavityeye.backend.security.service;
 
 import com.cavityeye.backend.security.SecurityConstants;
-import com.cavityeye.backend.security.dto.RefreshTokenDto;
-import com.cavityeye.backend.security.repository.RefreshTokenRepository;
 import com.cavityeye.backend.user.repository.UserRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.security.core.GrantedAuthority;
 
-import javax.swing.text.html.Option;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class RefreshTokenService {
 
-    private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
 
-    public void saveRefreshToken(RefreshTokenDto refreshTokenDto) {
-        refreshTokenRepository.save(refreshTokenDto);
-    }
+    public ResponseEntity<String> generateNewAccessToken(String token) {
 
-    public String generateNewAccessToken(String token) {
-        var refreshToken = getUserNameByRefreshToken(token);
+        HttpHeaders headers = new HttpHeaders();
 
-        if (refreshToken.isPresent()) {
-            return createRefreshToken(refreshToken.get());
-        }
+        byte[] signingKey = SecurityConstants.JWT_SECRET.getBytes();
 
-        return token;
-    }
+        Jws<Claims> parsedToken = Jwts.parser()
+                .setSigningKey(signingKey)
+                .parseClaimsJws(token);
 
-    private Optional<RefreshTokenDto> getUserNameByRefreshToken(String token) {
-        return refreshTokenRepository.getUserByRefreshToken(token);
-    }
+        long exp = Long.parseLong(parsedToken.getBody().get("exp").toString());
+        var user = userRepository.findByUserName(parsedToken.getBody().get("sub").toString());
 
-    private String createRefreshToken(RefreshTokenDto refreshToken) {
+        if (user.isPresent() && exp > Instant.now().getEpochSecond()) {
 
-        var user = userRepository.findByUserName(refreshToken.getUserName());
-
-        if (user.isPresent()) {
             var userRoles = Arrays.stream(user.get().getPermissions()).toList();
             var roles = userRoles.stream()
                     .map(role -> "ROLE_" + role).toList();
 
-            byte[] signingKey = SecurityConstants.JWT_SECRET.getBytes();
+            String newToken = Jwts.builder()
+                .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
+                .setHeaderParam("typ", SecurityConstants.TOKEN_TYPE)
+                .setIssuer(SecurityConstants.TOKEN_ISSUER)
+                .setAudience(SecurityConstants.TOKEN_AUDIENCE)
+                .setSubject(parsedToken.getBody().get("sub").toString())
+                .setExpiration(Date.from(Instant.now().plusMillis(864000000)))
+                .claim("rol", roles)
+                .compact();
 
-            String token = Jwts.builder()
-                    .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
-                    .setHeaderParam("typ", SecurityConstants.TOKEN_TYPE)
-                    .setIssuer(SecurityConstants.TOKEN_ISSUER)
-                    .setAudience(SecurityConstants.TOKEN_AUDIENCE)
-                    .setSubject(refreshToken.getUserName())
-                    .setExpiration(new Date(System.currentTimeMillis() + 864000000))
-                    .claim("rol", roles)
-                    .compact();
+            String refresToken = Jwts.builder()
+                .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
+                .setHeaderParam("typ", "refresh")
+                .setIssuer(SecurityConstants.TOKEN_ISSUER)
+                .setAudience(SecurityConstants.TOKEN_AUDIENCE)
+                .setSubject(parsedToken.getBody().get("sub").toString())
+                .setExpiration(Date.from(Instant.now().plusMillis(86400000000L)))
+                .compact();
 
-            refreshToken.setExpiryDate(refreshToken.getExpiryDate().plusMillis(864000000));
+            headers.add("Authorization", SecurityConstants.TOKEN_PREFIX + newToken);
+            headers.add("Refresh", refresToken);
 
-            refreshTokenRepository.save(refreshToken);
+            return ResponseEntity.ok().headers(headers).body("");
 
-            return token;
         }
-
-
-//        var refreshToken = new RefreshTokenDto();
-//        refreshToken.setToken(UUID.randomUUID().toString());
-//        refreshToken.setUserName(username);
-//        refreshToken.setExpiryDate(Instant.now().plusMillis(864000000));
 
         return null;
     }
+
 }
