@@ -64,6 +64,10 @@ public class RefreshTokenService {
                     .claim("rol", roles)
                     .compact();
 
+            refreshToken.setExpiryDate(refreshToken.getExpiryDate().plusMillis(864000000));
+
+            refreshTokenRepository.save(refreshToken);
+
             return token;
         }
 
