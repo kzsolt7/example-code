@@ -2,6 +2,7 @@ package com.cavityeye.backend.security.config;
 
 import com.cavityeye.backend.security.filter.JwtAuthenticationFilter;
 import com.cavityeye.backend.security.filter.JwtAuthorizationFilter;
+import com.cavityeye.backend.security.service.RefreshTokenService;
 import com.cavityeye.backend.security.service.UserSecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserSecurityService userService;
+    private final RefreshTokenService refreshTokenService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -41,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/authenticate").permitAll()
 //                .anyRequest().authenticated()
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), refreshTokenService))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager()))
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

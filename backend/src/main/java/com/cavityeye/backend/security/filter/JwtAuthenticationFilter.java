@@ -1,6 +1,8 @@
 package com.cavityeye.backend.security.filter;
 
 import com.cavityeye.backend.security.SecurityConstants;
+import com.cavityeye.backend.security.dto.RefreshTokenDto;
+import com.cavityeye.backend.security.service.RefreshTokenService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -14,17 +16,22 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+    private final RefreshTokenService refreshTokenService;
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, RefreshTokenService refreshTokenService) {
 
         this.authenticationManager = authenticationManager;
+        this.refreshTokenService = refreshTokenService;
 
         setFilterProcessesUrl(SecurityConstants.AUTH_LOGIN_URL);
     }
@@ -60,17 +67,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .claim("rol", roles)
                 .compact();
 
-        String refreshToken = Jwts.builder()
-                .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
-                .setHeaderParam("typ", SecurityConstants.TOKEN_TYPE)
-                .setIssuer(SecurityConstants.TOKEN_ISSUER)
-                .setAudience(SecurityConstants.TOKEN_AUDIENCE)
-                .setSubject(user.getUsername())
-                .setExpiration(new Date(System.currentTimeMillis() + 8640000000000L))
-                .compact();
+        var refreshToken = new RefreshTokenDto();
+        refreshToken.setToken(UUID.randomUUID().toString());
+        refreshToken.setUserName(user.getUsername());
+        refreshToken.setExpiryDate(Instant.now().plusMillis(864000000));
+
+        refreshTokenService.saveRefreshToken(refreshToken);
 
         response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token);
-        response.addHeader(SecurityConstants.TOKEN_HEADER_REFRESH, refreshToken);
+        response.addHeader(SecurityConstants.TOKEN_HEADER_REFRESH, refreshToken.getToken());
         response.addHeader("username", user.getUsername());
     }
 }
