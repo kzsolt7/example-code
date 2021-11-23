@@ -67,8 +67,8 @@ public class UserService {
 
     public void createAdminUser() {
         String[] permissions = new String[groupService.getPermissions().size()];
-        for(int i=0; i<groupService.getPermissions().size();i++){
-            permissions[i]=groupService.getPermissions().get(i).getValue();
+        for (int i = 0; i < groupService.getPermissions().size(); i++) {
+            permissions[i] = groupService.getPermissions().get(i).getValue();
         }
 
         String[] persmissionGroups = {"admin"};

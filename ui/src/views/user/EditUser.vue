@@ -125,7 +125,7 @@ export default {
       }).then(() => {
         setTimeout(() => {
           this.groupSelectChanged()
-        }, 100)
+        }, 200)
       })
     },
     saveUser() {
