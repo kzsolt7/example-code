@@ -80,7 +80,7 @@ public class GroupService {
         permissions.add(new PermissionDto("Update software", "updateSoftware"));
         permissions.add(new PermissionDto("Edit network settings", "editNetworkSettings"));
         permissions.add(new PermissionDto("Edit device default settings", "editDeviceDefaultSettings"));
-
+        permissions.add(new PermissionDto("X management access", "mng_HasAccessToX"));
         return permissions;
     }
 }
