@@ -44,7 +44,7 @@ export const permissionGroups = {
         getPermissions(context) {
             api.get("/user/permissions").then(r => {
                 context.commit("setRoleItems",r.data)
-                console.log(context.getters.getRoleItems)
+                //console.log(context.getters.getRoleItems)
             })
         }
     },

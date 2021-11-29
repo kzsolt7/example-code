@@ -32,8 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/**").permitAll()
-//                .antMatchers("/api/**").hasAnyRole("editDeviceDefaultSettings")
+                .antMatchers( "/api/refreshtoken").permitAll()
+ //               .antMatchers("/api/**").permitAll()
+                .antMatchers("/api/**").hasAnyRole("mng_HasAccessToX")
                 .antMatchers("/**").permitAll()
                 .antMatchers("/", "/static/**", "index.html", "/js/**", "/api", "/public/**",
                         "/favicon.ico", "/browserconfig.xml", "/manifest.json", "/*icon*.png", "/logo.png",

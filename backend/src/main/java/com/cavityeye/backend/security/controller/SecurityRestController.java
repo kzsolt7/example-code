@@ -12,7 +12,7 @@ public class SecurityRestController {
 
     private final RefreshTokenService refreshTokenService;
 
-    @PostMapping("refreshtoken")
+    @PostMapping("/refreshtoken")
     public ResponseEntity<String> resfreshToken(@RequestParam String refreshtoken) {
         return refreshTokenService.generateNewAccessToken(refreshtoken);
     }
