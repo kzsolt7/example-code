@@ -8,7 +8,6 @@ import AddNewPermissionGroup from "@/views/user/AddNewPermissionGroup";
 import PermissionGroups from "@/views/user/PermissionGroups";
 import ExportImport from "@/views/user/ExportImport";
 import EditUser from "@/views/user/EditUser";
-import EditGroup from "@/views/user/EditGroup";
 import AddNewNotificationGroup from "@/views/user/AddNewNotificationGroup";
 import EditPermissionGroup from "@/views/user/EditPermissionGroup";
 import EditNotificationGroup from "@/views/user/EditNotificationGroup";
@@ -85,11 +84,7 @@ const routes = [
         name: 'Edit user',
         component: EditUser
     },
-    {
-        path: '/edit-group',
-        name: 'Edit group',
-        component: EditGroup
-    },
+
 ]
 
 const router = new VueRouter({

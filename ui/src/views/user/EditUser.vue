@@ -141,7 +141,7 @@ export default {
           email: this.userEmail
         }).then(r => {
           if (r.status == 200) {
-            VueCookies.set('success', 'update-success', "10s")
+            VueCookies.set('success', 'update-success', "2s")
             this.$router.push("/user-list")
           }
         });

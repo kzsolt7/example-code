@@ -114,7 +114,7 @@ export default {
           permissions: permissionsToPost
         }).then(r => {
           if (r.status == 200) {
-            VueCookies.set('success', 'new-success', "10s")
+            VueCookies.set('success', 'new-success', "2s")
             this.$router.push("/user-list")
           }
         });

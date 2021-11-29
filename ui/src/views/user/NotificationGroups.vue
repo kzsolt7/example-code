@@ -8,7 +8,7 @@
 
     <group-table
       :headers="headers"
-      header-text="Permission groups"
+      header-text="Notification groups"
       :groups-data="groupsData"
       @delete-item="getData"
     ></group-table>
