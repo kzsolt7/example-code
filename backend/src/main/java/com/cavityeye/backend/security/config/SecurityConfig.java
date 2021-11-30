@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/api/user/create-admin-user").permitAll()
                 .antMatchers( "/api/refreshtoken").permitAll()
                 .antMatchers("/api/**").hasAnyRole("mng_HasAccessToX")
                 .antMatchers("/**").permitAll()

@@ -2,6 +2,7 @@ package com.cavityeye.backend.user.dto;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -11,6 +12,7 @@ public class UserDto {
     @Id
     private String id;
 
+    @Indexed(unique=true)
     private String userName;
 
     private String email;

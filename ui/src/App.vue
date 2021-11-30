@@ -81,7 +81,8 @@ export default {
       this.$store.commit("logout");
       this.$cookies.remove("access-token");
       this.$cookies.remove("refresh-token");
-      this.$router.push("login")
+      this.$cookies.remove("username");
+      this.$router.push("login");
     }
   }
 };

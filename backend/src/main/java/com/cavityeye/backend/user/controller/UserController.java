@@ -7,7 +7,9 @@ import com.cavityeye.backend.user.dto.UserDto;
 import com.cavityeye.backend.user.service.GroupService;
 import com.cavityeye.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class UserController {
     private final GroupService groupService;
 
     private final UserService userService;
+
 
 
     @PostMapping()

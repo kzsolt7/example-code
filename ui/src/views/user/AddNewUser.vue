@@ -1,72 +1,77 @@
 <template>
-  <v-row>
+  <div>
+    <transition name="fade">
+      <v-alert v-show="isWarning" type="warning">
+        {{ warningMessage }}
+      </v-alert>
+    </transition>
+    <v-row>
+      <div class="col-md-6">
+        <v-form
+            ref="form"
+            v-model="formModel"
+        >
+
+          <v-text-field
+              v-model="userName"
+              label="Username"
+              required
+              :rules="userRules"
+          ></v-text-field>
+
+          <v-text-field
+              v-model="userEmail"
+              label="Email"
+              required
+          ></v-text-field>
+
+          <v-text-field
+              v-model="userPassword"
+              label="Password"
+              type="password"
+              :rules="passwordRules"
+          ></v-text-field>
+
+          <v-select
+              v-model="groupValue"
+              :items="groupItems"
+              item-color="teal"
+              chips
+              label="Permission groups"
+              multiple
+              solo
+              @change="groupSelectChanged"
+          ></v-select>
 
 
-    <div class="col-md-6">
-      <v-form
-          ref="form"
-          v-model="formModel"
-      >
+          <v-select
+              :items="activeItems"
+              item-color="teal"
+              v-model="state"
+              label="Solo field"
+              solo
+          ></v-select>
 
-        <v-text-field
-            v-model="userName"
-            label="Username"
-            required
-            :rules="userRules"
-        ></v-text-field>
+          <v-btn @click="saveUser" color="teal" dark>Save</v-btn>
+          <v-btn style="margin-left: 20px" color="grey" @click="$router.go(-1)" dark>Cancel</v-btn>
 
-        <v-text-field
-            v-model="userEmail"
-            label="Email"
-            required
-        ></v-text-field>
-
-        <v-text-field
-            v-model="userPassword"
-            label="Password"
-            type="password"
-            :rules="passwordRules"
-        ></v-text-field>
-
-        <v-select
-            v-model="groupValue"
-            :items="groupItems"
-            item-color="teal"
-            chips
-            label="Permission groups"
-            multiple
-            solo
-            @change="groupSelectChanged"
-        ></v-select>
-
-
-        <v-select
-            :items="activeItems"
-            item-color="teal"
-            v-model="state"
-            label="Solo field"
-            solo
-        ></v-select>
-
-        <v-btn @click="saveUser" color="teal" dark>Save</v-btn>
-        <v-btn style="margin-left: 20px" color="grey" @click="$router.go(-1)" dark>Cancel</v-btn>
-
-      </v-form>
-    </div>
-
-    <div class="col-md-6" style="position: absolute; top: 0; bottom: 0; right:0; overflow-y: scroll">
-      <div v-for="roleItem in roleItems" v-bind:key="roleItem.value">
-        <v-checkbox
-            :label="roleItem.name"
-            color="teal"
-            :value="roleItem.value"
-            hide-details
-            v-model="permissions"
-            :disabled="roleItem.disabled"
-        ></v-checkbox>
+        </v-form>
       </div>
-    </div>
-  </v-row>
+
+      <div class="col-md-6" style="position: absolute; top: 0; bottom: 0; right:0; overflow-y: scroll">
+        <div v-for="roleItem in roleItems" v-bind:key="roleItem.value">
+          <v-checkbox
+              :label="roleItem.name"
+              color="teal"
+              :value="roleItem.value"
+              hide-details
+              v-model="permissions"
+              :disabled="roleItem.disabled"
+          ></v-checkbox>
+        </div>
+      </div>
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -98,6 +103,8 @@ export default {
       passwordRules: [
         v => !!v || 'Password is required',
       ],
+      isWarning: false,
+      warningMessage: "User already exists!"
     }
   },
   methods: {
@@ -116,6 +123,12 @@ export default {
           if (r.status == 200) {
             VueCookies.set('success', 'new-success', "2s")
             this.$router.push("/user-list")
+          }
+
+
+        }, err => {
+          if (err.response.status == 409) {
+            this.userExists()
           }
         });
 
@@ -141,15 +154,21 @@ export default {
       }
       for (let el in this.roleItems) {
 
-        this.roleItems[el].disabled=false
-        for (let item in this.permissionsFromGroups ) {
+        this.roleItems[el].disabled = false
+        for (let item in this.permissionsFromGroups) {
           if (this.permissionsFromGroups[item] == this.roleItems[el].value) {
             this.roleItems[el].disabled = true
           }
         }
       }
-      this.permissions.push.apply(this.permissions,this.permissionsFromGroups)
+      this.permissions.push.apply(this.permissions, this.permissionsFromGroups)
 
+    },
+    userExists(){
+      this.isWarning = true;
+      setTimeout(() =>
+        this.isWarning = false
+      ,2000)
     }
   },
   mounted() {

@@ -30,12 +30,13 @@ api.interceptors.response.use(
     },
     error => {
         //TODO handle 403 and 401 difference
-        if(error.response.status === 403){
+        if(error.response.status === 401){
             if (getCookie("refresh-token")) {
                 api.post('/refreshtoken?refreshtoken=' + getCookie("refresh-token")).then(r => {
                     if (r.status === 200) {
-                        setCookie("access-token", r.headers.authorization, "1000");
-                        setCookie("refresh-token", r.headers.refresh, "1000");
+                        setCookie("access-token", r.headers.authorization, "3600");
+                        setCookie("refresh-token", r.headers.refresh, "7200");
+                        setCookie("username", r.headers.username, "7200");
                     }
 
                 })
@@ -44,6 +45,10 @@ api.interceptors.response.use(
                 router.push('/login');
             }
         }
+        if(error.response.status == 409){
+            return Promise.reject(error);
+        }
+
        return  Promise.reject(error);
     }
 )

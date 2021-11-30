@@ -4,9 +4,15 @@ import com.cavityeye.backend.user.dto.PermissionGroupDto;
 import com.cavityeye.backend.user.dto.UserDto;
 import com.cavityeye.backend.user.repository.PermissionGroupRepository;
 import com.cavityeye.backend.user.repository.UserRepository;
+import com.mongodb.DuplicateKeyException;
+import com.mongodb.MongoException;
+import com.mongodb.MongoServerException;
+import com.mongodb.MongoWriteException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +29,11 @@ public class UserService {
 
     public UserDto saveUser(UserDto user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        return userRepository.save(user);
+        try {
+            return userRepository.save(user);
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
     }
 
     public UserDto getUserById(String id) {
