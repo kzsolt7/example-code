@@ -16,7 +16,8 @@
               v-model="userName"
               label="Username"
               required
-              :rules="userRules"
+              :rules="rules"
+              @keyup="delRules"
           ></v-text-field>
 
           <v-text-field
@@ -53,7 +54,8 @@
           ></v-select>
 
           <v-btn @click="saveUser" color="teal" dark>Save</v-btn>
-          <v-btn style="margin-left: 20px" color="grey" @click="$router.go(-1)" dark>Cancel</v-btn>
+          <v-btn style="margin-left: 20px" color="grey" @click="/*$router.go(-1)*/usernameInUseClear" dark>Cancel
+          </v-btn>
 
         </v-form>
       </div>
@@ -98,16 +100,58 @@ export default {
       status: '',
       permissionGroupsObject: [],
       userRules: [
-        v => !!v || 'Username is required',
+        //v => !!v || 'Username is required',
       ],
       passwordRules: [
         v => !!v || 'Password is required',
       ],
       isWarning: false,
-      warningMessage: "User already exists!"
+      warningMessage: "User already exists!",
+      validProblem: '',
+      userNameRuleBool: false
     }
   },
+  computed: {
+    getRoleList() {
+      return this.$store.getters.getRoleItems;
+    },
+    rules() {
+      console.log("halo")
+      const rules = []
+
+      if (this.userNameRuleBool) {
+        const rule =
+            v => (!!v && v) === "cica" || 'Username already in use'
+        rules.push(rule)
+      }
+      if (!this.userNameRuleBool) {
+        const rule = v => !!v || 'Username is required'
+        rules.push(rule)
+
+      }
+
+      return rules
+    },
+  },
+  watch: {
+    getRoleList(value) {
+      this.roleItems = value;
+      this.groupSelectChanged();
+
+    },
+    userNameRuleBool: 'validateField'
+  },
   methods: {
+    validateField() {
+      this.$refs.form.validate()
+    },
+    delRules(){
+      this.userNameRuleBool = false;
+      setTimeout(() =>
+              this.$refs.form.validate()
+          , 200)
+    },
+
     saveUser() {
       this.$refs.form.validate()
       let permissionsToPost = this.permissions.filter(x => !this.permissionsFromGroups.includes(x))
@@ -129,6 +173,10 @@ export default {
         }, err => {
           if (err.response.status == 409) {
             this.userExists()
+            this.userNameRuleBool = true;
+            setTimeout(() =>
+                    this.$refs.form.validate()
+                , 200)
           }
         });
 
@@ -158,34 +206,28 @@ export default {
         for (let item in this.permissionsFromGroups) {
           if (this.permissionsFromGroups[item] == this.roleItems[el].value) {
             this.roleItems[el].disabled = true
+
           }
         }
       }
       this.permissions.push.apply(this.permissions, this.permissionsFromGroups)
 
     },
-    userExists(){
+    userExists() {
       this.isWarning = true;
       setTimeout(() =>
-        this.isWarning = false
-      ,2000)
-    }
+              this.isWarning = false
+          , 2000)
+    },
   },
   mounted() {
     this.init()
   },
-  computed: {
-    getRoleList() {
-      return this.$store.getters.getRoleItems;
-    }
-  },
-  watch: {
-    getRoleList(value) {
-      this.roleItems = value;
-      this.groupSelectChanged();
-    }
-  },
+
+
+
 }
+
 </script>
 
 <style scoped>
