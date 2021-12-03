@@ -42,6 +42,12 @@ public class UserService {
         return user.get();
     }
 
+    public UserDto getUserByUserName(String username){
+        var user = userRepository.findByUserName(username);
+        user.get().setPermissions(UserPermission(user.get()));
+        return user.get();
+    }
+
 
     public List<UserDto> getAllUsers() {
         var users = userRepository.findAll();

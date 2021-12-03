@@ -12,6 +12,7 @@
             v-model="userName"
             label="Username"
             required
+            :disabled="true"
         ></v-text-field>
 
         <v-text-field

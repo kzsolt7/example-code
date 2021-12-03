@@ -43,7 +43,21 @@ export default {
           this.$store.commit("setUserName", r.headers.username)
           this.$router.push("/")
         }
+      }).then(() => {
+        api.get(`/user/byUserName?username=${this.username}`).then(r => {
+          if(r.status == 200) {
+            r.data.permissions.forEach(role => {
+              if(role == "mng_HasAccessToX"){
+                this.$store.commit("setAccess", true)
+              }
+
+            })
+            this.$store.commit("setRoles", r.data.permissions)
+            //console.log(this.$store.getters.getRoles)
+          }
+        })
       });
+
     }
   }
 }

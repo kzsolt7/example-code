@@ -8,7 +8,9 @@ import com.cavityeye.backend.user.repository.NotificationGroupRepository;
 import com.cavityeye.backend.user.repository.PermissionGroupRepository;
 import com.cavityeye.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,11 @@ public class GroupService {
 
 
     public PermissionGroupDto createPermissionGroup(PermissionGroupDto permissionGroup) {
-        return permissionGroupRepository.save(permissionGroup);
+        try {
+            return permissionGroupRepository.save(permissionGroup);
+        }catch(Exception ex){
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
     }
 
     public List<PermissionGroupDto> getPermissionGroups() {
@@ -38,7 +44,11 @@ public class GroupService {
     }
 
     public NotificationGroupDto createNotificationGroup(NotificationGroupDto notificationGroup) {
-        return notificationGroupRepository.save(notificationGroup);
+        try {
+            return notificationGroupRepository.save(notificationGroup);
+        }catch (Exception ex){
+            throw  new ResponseStatusException(HttpStatus.CONFLICT);
+        }
     }
 
     public NotificationGroupDto getNotificationGroupById(String id) {

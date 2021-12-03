@@ -54,7 +54,7 @@
           ></v-select>
 
           <v-btn @click="saveUser" color="teal" dark>Save</v-btn>
-          <v-btn style="margin-left: 20px" color="grey" @click="/*$router.go(-1)*/usernameInUseClear" dark>Cancel
+          <v-btn style="margin-left: 20px" color="grey" @click="$router.go(-1)" dark>Cancel
           </v-btn>
 
         </v-form>
@@ -107,7 +107,6 @@ export default {
       ],
       isWarning: false,
       warningMessage: "User already exists!",
-      validProblem: '',
       userNameRuleBool: false
     }
   },
@@ -116,7 +115,6 @@ export default {
       return this.$store.getters.getRoleItems;
     },
     rules() {
-      console.log("halo")
       const rules = []
 
       if (this.userNameRuleBool) {
@@ -145,11 +143,14 @@ export default {
     validateField() {
       this.$refs.form.validate()
     },
-    delRules(){
-      this.userNameRuleBool = false;
-      setTimeout(() =>
-              this.$refs.form.validate()
-          , 200)
+    delRules() {
+      if (this.userNameRuleBool == true) {
+        this.userNameRuleBool = false;
+        setTimeout(() =>
+                this.$refs.form.validate()
+            , 200)
+      }
+
     },
 
     saveUser() {
@@ -223,7 +224,6 @@ export default {
   mounted() {
     this.init()
   },
-
 
 
 }

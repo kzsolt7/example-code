@@ -1,7 +1,8 @@
 export const User = {
     state: {
         username: '',
-        roles: []
+        roles: [],
+        hasAccess: false
     },
     mutations: {
         setUserName(state, username) {
@@ -13,10 +14,15 @@ export const User = {
         logout(state) {
             state.username = '';
             state.roles = [];
+            state.hasAccess = false;
         },
+        setAccess(state, access){
+            state.hasAccess = access;
+        }
     },
     getters: {
         getUsername: state => state.username,
-        getRoles: state => state.roles
+        getRoles: state => state.roles,
+        getAccess: state => state.hasAccess
     }
 }

@@ -1,4 +1,10 @@
 <template>
+  <div>
+    <transition name="fade">
+      <v-alert v-show="isWarning" type="warning">
+        {{ warningMessage }}
+      </v-alert>
+    </transition>
   <v-row>
     <div class="col-md-6">
       <v-form
@@ -11,7 +17,8 @@
             v-model="groupName"
             label="Group name"
             required
-            :rules="groupRules"
+            :rules="rules"
+            @keyup="delRules"
         ></v-text-field>
 
         <v-select
@@ -59,7 +66,7 @@
       </div>
     </div>
   </v-row>
-
+  </div>
 </template>
 
 <script>
@@ -78,12 +85,15 @@ export default {
       users: '',
       usersToDisplay: '',
       groupRules: [
-        v => !!v || 'Group name is required',
+        //v => !!v || 'Group name is required',
       ],
       usersInGroup: [],
       search: '',
       unTicked: [],
-      ticked :[]
+      ticked :[],
+      isWarning: false,
+      warningMessage: "Group already exists!",
+      groupNameRuleBool: false
 
 
     }
@@ -91,8 +101,46 @@ export default {
   mounted() {
     this.init()
   },
+  computed: {
+
+    rules() {
+      const rules = []
+
+      if (this.groupNameRuleBool) {
+        const rule =
+            v => (!!v && v) === "cica" || 'Group name already in use'
+        rules.push(rule)
+      }
+      if (!this.groupNameRuleBool) {
+        const rule = v => !!v || 'Group name is required'
+        rules.push(rule)
+
+      }
+
+      return rules
+    },
+  },
   methods: {
+    groupExists() {
+      this.isWarning = true;
+      setTimeout(() =>
+              this.isWarning = false
+          , 2000)
+    },
+    validateField() {
+      this.$refs.form.validate()
+    },
+    delRules() {
+      if (this.groupNameRuleBool == true) {
+        this.groupNameRuleBool = false;
+        setTimeout(() =>
+                this.$refs.form.validate()
+            , 200)
+      }
+
+    },
     saveGroup() {
+      this.$refs.form.validate()
       if (this.groupName)
         api.post('/user/notification-group', {
           name: this.groupName,
@@ -103,6 +151,14 @@ export default {
           if (r.status == 200) {
             VueCookies.set('success', 'new-success', "2s")
             this.$router.push("/notification")
+          }
+        }, err => {
+          if (err.response.status == 409) {
+            this.groupExists()
+            this.groupNameRuleBool = true;
+            setTimeout(() =>
+                    this.$refs.form.validate()
+                , 200)
           }
         });
     },
@@ -153,7 +209,10 @@ export default {
       this.usersToDisplay = sorted
       this.unTicked = unTicked
     }
-  }
+  },
+  watch:{
+    groupNameRuleBool: 'validateField'
+  },
 }
 </script>
 

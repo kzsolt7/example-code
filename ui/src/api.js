@@ -48,6 +48,9 @@ api.interceptors.response.use(
         if(error.response.status == 409){
             return Promise.reject(error);
         }
+        // if(error.response.status == 403){
+        //     router.push('/login')
+        // }
 
        return  Promise.reject(error);
     }

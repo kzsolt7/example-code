@@ -12,6 +12,7 @@
             label="Group name"
             required
             :rules="groupRules"
+            :disabled="true"
         ></v-text-field>
 
         <v-select

@@ -34,6 +34,11 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    @GetMapping("/byUserName")
+    public UserDto getUserByUserName(@RequestParam String username){
+        return userService.getUserByUserName(username);
+    }
+
     @GetMapping("/all")
     public List<UserDto> getAllUsers() {
         return userService.getAllUsers();
