@@ -42,6 +42,7 @@
           hide-details
           @keyup="searchInUsers(search)"
       ></v-text-field>
+      <v-card>
       <div v-for="user in unTicked" v-bind:key="user.id">
         <v-checkbox
             :label="user.userName"
@@ -52,8 +53,10 @@
             @click="clear"
         ></v-checkbox>
       </div>
+      </v-card>
     </div> <div class="col-md-3" style="max-height: 90vh; overflow-y: scroll">
 
+    <v-card>
       <div v-for="user in ticked" v-bind:key="user.id">
         <v-checkbox
             :label="user.userName"
@@ -64,6 +67,7 @@
             @click="clear"
         ></v-checkbox>
       </div>
+    </v-card>
     </div>
   </v-row>
   </div>
