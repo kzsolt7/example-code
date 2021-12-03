@@ -64,13 +64,16 @@ export default {
   mounted() {
     if (this.$cookies.get("username")) {
       this.$store.commit("setUserName", this.$cookies.get("username"))
+      this.$store.dispatch('getAccess')
     }
 
     setInterval(() => {
       this.createTimer()
     }, 1000);
 
-    this.$store.dispatch("getPermissions")
+    this.$store.dispatch("getPermissions");
+
+
   },
   methods:{
     createTimer() {

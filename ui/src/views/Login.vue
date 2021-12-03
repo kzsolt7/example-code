@@ -53,7 +53,7 @@ export default {
 
             })
             this.$store.commit("setRoles", r.data.permissions)
-            //console.log(this.$store.getters.getRoles)
+            //console.log(this.$store.getters.getAccess)
           }
         })
       });

@@ -55,6 +55,7 @@
             :key="item.title"
             link
             :to="item.url"
+            :disabled="!hasAccess"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -116,6 +117,7 @@ export default {
   },
   data(){
     return {
+      hasAccess: this.$store.getters.getAccess,
       open: this.drawer,
       selectedItem: 0,
       outOfMenuGroup: [
@@ -144,7 +146,15 @@ export default {
       ],
     }
   },
+  computed: {
+    getAccessRole(){
+      return this.$store.getters.getAccess;
+    }
+  },
   watch:{
+    getAccessRole(value) {
+      this.hasAccess = value;
+    },
     drawer(value){
       this.open = value;
     },

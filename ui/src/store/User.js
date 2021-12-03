@@ -1,3 +1,5 @@
+import {api} from "@/api";
+
 export const User = {
     state: {
         username: '',
@@ -18,6 +20,21 @@ export const User = {
         },
         setAccess(state, access){
             state.hasAccess = access;
+        }
+    },
+    actions: {
+        getAccess(context) {
+            api.get(`/user/byUserName?username=${context.getters.getUsername}`).then(r => {
+                if(r.status == 200) {
+                    r.data.permissions.forEach(role => {
+                        if(role == "mng_HasAccessToX"){
+                            context.commit("setAccess", true)
+                        }
+                    })
+                    context.commit("setRoles", r.data.permissions)
+                    //console.log(this.$store.getters.getAccess)
+                }
+            })
         }
     },
     getters: {
