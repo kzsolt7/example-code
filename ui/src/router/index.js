@@ -30,46 +30,64 @@ const routes = [
     {
         path: '/user-list/:status?',
         name: 'User list',
-        component: UserList
+        component: UserList,
+        meta: {requiresAuth: true}
+
     },
     {
         path: '/add-new-user',
         name: 'Add new user',
-        component: AddNewUser
+        component: AddNewUser,
+        meta: {requiresAuth: true}
+
     },
     {
         path: '/notification/:status?',
         name: 'Notification group',
-        component: NotificationGroups
+        component: NotificationGroups,
+        meta: {requiresAuth: true}
+
     },
     {
         path: '/permission/:status?',
         name: 'Permission group',
-        component: PermissionGroups
+        component: PermissionGroups,
+        meta: {requiresAuth: true}
+
     },
     {
         path: '/edit-permission-group/:id',
         name: 'Edit permission group',
-        component: EditPermissionGroup
+        component: EditPermissionGroup,
+        meta: {requiresAuth: true}
+
     },
     {
         path: '/edit-notification-group/:id',
         name: 'Edit notification group',
-        component: EditNotificationGroup
+        component: EditNotificationGroup,
+        meta: {requiresAuth: true}
+
     },
     {
         path: '/add-new-permission-group',
         name: 'Add new permission group',
-        component: AddNewPermissionGroup
+        component: AddNewPermissionGroup,
+        meta: {requiresAuth: true}
+
     }, {
         path: '/add-new-notification-group',
         name: 'Add new notification group',
-        component: AddNewNotificationGroup
+        component: AddNewNotificationGroup,
+        meta: {requiresAuth: true}
+
     },
     {
         path: '/export-import',
         name: 'Export import',
-        component: ExportImport
+        component: ExportImport,
+        meta: {requiresAuth: true}
+
     },
     {
         path: '/about',
@@ -77,12 +95,16 @@ const routes = [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+        meta: {requiresAuth: true}
+
     },
     {
         path: '/edit-user/:id',
         name: 'Edit user',
-        component: EditUser
+        component: EditUser,
+        meta: {requiresAuth: true}
+
     },
 
 ]

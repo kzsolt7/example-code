@@ -13,19 +13,21 @@
               outlined
               tile
               elevation="1"
+              @click="$router.push(item.url)"
+              :disabled="isXmanager"
           >
             <v-card-text>
               <div>{{ item.category }}</div>
               <p class="text-h5 text--primary">{{ item.name }}</p>
             </v-card-text>
             <v-card-actions>
-              <v-btn
-                  text
-                  color="deep-purple accent-4"
-                  @click="$router.push(item.url)"
-              >
-                Learn More
-              </v-btn>
+<!--              <v-btn-->
+<!--                  text-->
+<!--                  color="deep-purple accent-4"-->
+<!--                  @click="$router.push(item.url)"-->
+<!--              >-->
+<!--                Learn More-->
+<!--              </v-btn>-->
             </v-card-actions>
           </v-card>
         </v-col>
@@ -93,6 +95,7 @@ export default {
   name: 'Home',
   data(){
     return {
+      isXmanager: !this.$store.getters.getAccess,
       items: [
         {category: 'Device management', name: 'Device list', url: '/device-list'},
         {category: 'User management', name: 'User list', url: '/user-list'},
@@ -100,6 +103,19 @@ export default {
         {category: 'Settings', name: 'Network management', url: '/network-management'},
       ]
     }
+  },
+  computed:{
+    xManager(){
+      return this.$store.getters.getAccess;
+    }
+  },
+  watch: {
+    xManager(value){
+      this.isXmanager = !value;
+    }
+  },
+  methods:{
+
   },
   components: {},
 }

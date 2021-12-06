@@ -1,27 +1,39 @@
 <template>
   <div>
-    <v-form class="col-md-4 mx-auto">
-      <v-text-field
-          v-model="username"
-          :rules="usernameRules"
-          label="Username"
-          required
-      ></v-text-field>
+    <v-card
+        class="mx-auto pa-8"
+        elevation="1"
+        max-width="374"
+    >
+      <v-form class="mx-auto">
+        <p class="text-h4 text--primary">
+          Login
+        </p>
 
-      <v-text-field
-          v-model="password"
-          :rules="passwordRules"
-          label="Password"
-          type="password"
-          required
-      ></v-text-field>
-      <v-btn color="teal" dark @click="login">Login</v-btn>
-    </v-form>
+        <v-text-field
+            v-model="username"
+            :rules="usernameRules"
+            label="Username"
+            required
+        ></v-text-field>
+
+        <v-text-field
+            v-model="password"
+            :rules="passwordRules"
+            label="Password"
+            type="password"
+            required
+        ></v-text-field>
+        <v-btn color="teal" dark @click="login">Login</v-btn>
+      </v-form>
+    </v-card>
+
   </div>
 </template>
 
 <script>
 import {api} from "@/api";
+
 export default {
   name: "Login",
   data() {
@@ -45,9 +57,9 @@ export default {
         }
       }).then(() => {
         api.get(`/user/byUserName?username=${this.username}`).then(r => {
-          if(r.status == 200) {
+          if (r.status == 200) {
             r.data.permissions.forEach(role => {
-              if(role == "mng_HasAccessToX"){
+              if (role == "mng_HasAccessToX") {
                 this.$store.commit("setAccess", true)
               }
 
