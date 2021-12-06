@@ -33,7 +33,7 @@
       </v-form>
     </div>
 
-    <div class="col-md-3" style="max-height: 90vh; overflow-y: scroll">
+    <div class="col-md-3" style="max-height: 90vh; overflow-y: hidden">
       <v-text-field
           v-model="search"
           append-icon="mdi-magnify"
@@ -54,7 +54,8 @@
         ></v-checkbox>
       </div>
       </v-card>
-    </div> <div class="col-md-3" style="max-height: 90vh; overflow-y: scroll">
+    </div>
+    <div class="col-md-3" style="max-height: 90vh; overflow-y: scroll">
 
     <v-card>
       <div v-for="user in ticked" v-bind:key="user.id">
@@ -221,5 +222,6 @@ export default {
 </script>
 
 <style scoped>
+
 
 </style>

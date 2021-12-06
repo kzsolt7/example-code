@@ -5,6 +5,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Data
 @Document("user")
 public class UserDto {
@@ -13,10 +16,14 @@ public class UserDto {
     private String id;
 
     @Indexed(unique=true)
+    @NotNull
+    @NotBlank
     private String userName;
 
     private String email;
 
+    @NotNull
+    @NotBlank
     private String password;
 
     private String[] permissionGroups;
