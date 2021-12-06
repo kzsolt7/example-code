@@ -5,7 +5,7 @@
         elevation="1"
         max-width="374"
     >
-      <v-form class="mx-auto">
+      <v-form @submit.prevent="login" class="mx-auto">
         <p class="text-h4 text--primary">
           Login
         </p>
@@ -24,7 +24,7 @@
             type="password"
             required
         ></v-text-field>
-        <v-btn color="teal" dark @click="login">Login</v-btn>
+        <v-btn type="submit" color="teal" dark>Login</v-btn>
       </v-form>
     </v-card>
 

@@ -66,6 +66,7 @@ export default {
     if (this.$cookies.get("username")) {
       this.$store.commit("setUserName", this.$cookies.get("username"))
       this.$store.dispatch('getAccess')
+      this.$store.dispatch('getPermissions')
     }
 
     setInterval(() => {
