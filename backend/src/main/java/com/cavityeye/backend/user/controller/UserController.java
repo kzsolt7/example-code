@@ -6,14 +6,22 @@ import com.cavityeye.backend.user.dto.PermissionGroupDto;
 import com.cavityeye.backend.user.dto.UserDto;
 import com.cavityeye.backend.user.service.GroupService;
 import com.cavityeye.backend.user.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import lombok.RequiredArgsConstructor;
+import org.bson.json.JsonObject;
+import org.json.JSONArray;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,10 +32,7 @@ import java.util.Map;
 public class UserController {
 
     private final GroupService groupService;
-
     private final UserService userService;
-
-
 
     @PostMapping()
     public UserDto createUser(@Valid @RequestBody UserDto user) {
@@ -138,6 +143,19 @@ public class UserController {
             errors.put(fieldName, errorMessage);
         });
         return errors;
+    }
+
+    @GetMapping("/export")
+    public ResponseEntity<byte[]> exportAllUser() {
+        var users = userService.getAllUsers();
+        var json = new JSONArray(users).toString().getBytes();
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=users"+ Instant.now() +".json")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .contentLength(json.length)
+                .body(json);
     }
 }
 

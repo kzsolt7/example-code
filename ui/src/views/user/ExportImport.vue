@@ -41,8 +41,9 @@
     <v-card class="col-md-5 ml-1">
       <v-card-title>Export</v-card-title>
       <v-card-text>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dolor magnam maxime mollitia non! Labore laudantium nisi officia ut! At beatae consequuntur ea fugit laudantium </p>
-        <v-btn color="teal" dark>Save to file</v-btn>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dolor magnam maxime mollitia non! Labore
+          laudantium nisi officia ut! At beatae consequuntur ea fugit laudantium </p>
+        <v-btn color="teal" dark @click="exportUsers">Save to file</v-btn>
       </v-card-text>
     </v-card>
 
@@ -50,8 +51,25 @@
 </template>
 
 <script>
+import {api} from "@/api";
+
 export default {
-  name: "ExportImport"
+  name: "ExportImport",
+  methods: {
+    exportUsers() {
+      api.get('user/export', { method: 'GET', responseType: 'blob'}).then(response => {
+        let fileName = response.headers["content-disposition"].toString().split("=")[1];
+          const url = window.URL
+              .createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', fileName);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+      });
+    }
+  }
 }
 </script>
 
