@@ -6,10 +6,9 @@ import com.cavityeye.backend.user.dto.PermissionGroupDto;
 import com.cavityeye.backend.user.dto.UserDto;
 import com.cavityeye.backend.user.service.GroupService;
 import com.cavityeye.backend.user.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import lombok.RequiredArgsConstructor;
-import org.bson.json.JsonObject;
 import org.json.JSONArray;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -146,16 +144,19 @@ public class UserController {
     }
 
     @GetMapping("/export")
-    public ResponseEntity<byte[]> exportAllUser() {
+    public ResponseEntity<byte[]> exportAllUser() throws JsonProcessingException {
         var users = userService.getAllUsers();
-        var json = new JSONArray(users).toString().getBytes();
+
+        var usersJson = new JSONArray(users);
+        ObjectMapper mapper = new ObjectMapper();
+        var prettyJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(mapper.readTree(usersJson.toString()));
 
         return ResponseEntity
                 .ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=users"+ Instant.now() +".json")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .contentLength(json.length)
-                .body(json);
+                .contentLength(prettyJson.getBytes().length)
+                .body(prettyJson.getBytes());
     }
 }
 
