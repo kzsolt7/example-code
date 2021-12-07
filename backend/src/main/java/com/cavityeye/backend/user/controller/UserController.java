@@ -17,8 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +45,7 @@ public class UserController {
     }
 
     @GetMapping("/byUserName")
-    public UserDto getUserByUserName(@RequestParam String username){
+    public UserDto getUserByUserName(@RequestParam String username) {
         return userService.getUserByUserName(username);
     }
 
@@ -153,10 +155,15 @@ public class UserController {
 
         return ResponseEntity
                 .ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=users"+ Instant.now() +".json")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=users" + Instant.now() + ".json")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .contentLength(prettyJson.getBytes().length)
                 .body(prettyJson.getBytes());
+    }
+
+    @PostMapping("/import")
+    public void importUsers(@RequestParam("file")MultipartFile file) throws IOException {
+        userService.importUsers(file);
     }
 }
 

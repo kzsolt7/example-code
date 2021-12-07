@@ -4,16 +4,16 @@ import com.cavityeye.backend.user.dto.PermissionGroupDto;
 import com.cavityeye.backend.user.dto.UserDto;
 import com.cavityeye.backend.user.repository.PermissionGroupRepository;
 import com.cavityeye.backend.user.repository.UserRepository;
-import com.mongodb.DuplicateKeyException;
-import com.mongodb.MongoException;
-import com.mongodb.MongoServerException;
-import com.mongodb.MongoWriteException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -125,4 +125,11 @@ public class UserService {
 
     }
 
+    public void importUsers(MultipartFile file) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        var fileContent = mapper.readTree(new String(file.getBytes()));
+        var users = mapper.readValue(fileContent.toString(), UserDto[].class);
+        var userList = Arrays.stream(users).toList();
+        userList.forEach(r -> userRepository.save(r));
+    }
 }
