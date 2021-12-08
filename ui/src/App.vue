@@ -76,17 +76,24 @@ export default {
   }),
   mounted() {
     if (this.$cookies.get("username") != null) {
-      this.userName = this.$cookies.get("username")
+      this.userName = this.$store.getters.getUsername
       this.$store.commit("setUserName", this.$cookies.get("username"))
       this.$store.dispatch('getAccess')
       this.$store.dispatch('getPermissions')
     }
-
     setInterval(() => {
       this.createTimer()
     }, 1000);
-
-
+  },
+  computed: {
+    getUserName() {
+      return this.$store.getters.getUsername;
+    }
+  },
+  watch: {
+    getUserName(value) {
+      this.userName = value;
+    }
   },
   methods: {
     createTimer() {
