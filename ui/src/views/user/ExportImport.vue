@@ -50,7 +50,7 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dolor magnam maxime mollitia non! Labore
               laudantium nisi officia ut! Labore
               laudantium nisi officia ut! Labore
-              laudantium nisi officia ut!</p>
+              laudantium nisi officia asd</p>
             <v-btn color="teal" dark @click="exportUsers">Save to file</v-btn>
           </v-card-text>
         </v-card>
