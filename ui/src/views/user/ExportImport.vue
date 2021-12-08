@@ -49,7 +49,12 @@
                 </template>
               </v-file-input>
 
-              <v-btn @click="importUsers" color="teal" dark>Load from file</v-btn>
+              <v-btn
+                  :disabled="disableButton"
+                  @click="importUsers"
+                  color="teal"
+                  :dark="!disableButton"
+              >Load from file</v-btn>
 
             </v-card-text>
           </v-card>
@@ -86,6 +91,7 @@ export default {
       successMessage: 'Users successfully imported',
       isWarning: false,
       warningMessage: 'Problem occurred',
+      disableButton: true
     }
   },
   methods: {
@@ -146,6 +152,15 @@ export default {
       //this.file = this.$refs.file.files[0];
 
 
+    }
+  },
+  watch: {
+    file(value){
+      if(value == null) {
+        this.disableButton = true
+      }else{
+        this.disableButton = false
+      }
     }
   }
 
