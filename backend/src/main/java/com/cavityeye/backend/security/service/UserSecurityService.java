@@ -21,7 +21,7 @@ public class UserSecurityService implements UserDetailsService  {
 
         var user = userRepository.findByUserName(username);
 
-        if (user.isEmpty()) {
+        if (user.isEmpty() || user.get().getState().equals("Inactive")) {
             throw new UsernameNotFoundException(username);
         }
 
