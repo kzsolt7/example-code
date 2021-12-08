@@ -1,7 +1,19 @@
 <template>
-  <div class="row justify-center">
+  <div>
+    <transition name="fade">
+      <v-alert v-show="isSuccess" type="success">
+        {{ successMessage }}
+      </v-alert>
+    </transition>
+    <transition name="fade">
+      <v-alert v-show="isWarning" type="warning">
+        {{ warningMessage }}
+      </v-alert>
+    </transition>
 
-    <v-row>
+    <div class="row justify-center">
+
+      <v-row>
 
         <v-col>
           <v-card class="col-md-5" height="230">
@@ -28,35 +40,37 @@
                     {{ text }}
                   </v-chip>
 
-                <span
-                    v-else-if="index === 2"
-                    class="text-overline grey--text text--darken-3 mx-2"
-                >
+                  <span
+                      v-else-if="index === 2"
+                      class="text-overline grey--text text--darken-3 mx-2"
+                  >
         +{{ files.length - 2 }} File(s)
       </span>
-              </template>
-            </v-file-input>
+                </template>
+              </v-file-input>
 
-            <v-btn @click="importUsers" color="teal" dark>Load from file</v-btn>
+              <v-btn @click="importUsers" color="teal" dark>Load from file</v-btn>
 
-          </v-card-text>
-        </v-card>
-      </v-col>
+            </v-card-text>
+          </v-card>
+        </v-col>
 
-      <v-col>
-        <v-card class="col-md-5" height="230">
-          <v-card-title>Export</v-card-title>
-          <v-card-text>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dolor magnam maxime mollitia non! Labore
-              laudantium nisi officia ut! Labore
-              laudantium nisi officia ut! Labore
-              laudantium nisi officia asd</p>
-            <v-btn color="teal" dark @click="exportUsers">Save to file</v-btn>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+        <v-col>
+          <v-card class="col-md-5" height="230">
+            <v-card-title>Export</v-card-title>
+            <v-card-text>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dolor magnam maxime mollitia non!
+                Labore
+                laudantium nisi officia ut! Labore
+                laudantium nisi officia ut! Labore
+                laudantium nisi officia asd</p>
+              <v-btn color="teal" dark @click="exportUsers">Save to file</v-btn>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
 
+    </div>
   </div>
 </template>
 
@@ -68,6 +82,10 @@ export default {
   data() {
     return {
       file: null,
+      isSuccess: false,
+      successMessage: 'Users successfully imported',
+      isWarning: false,
+      warningMessage: 'Problem occurred',
     }
   },
   methods: {
@@ -97,13 +115,33 @@ export default {
               'Content-Type': 'multipart/form-data'
             }
           }
-      ).then(function () {
-        console.log('Users successfully exported');
+      ).then(() => {
+        console.log('Users successfully imported');
+        this.isSuccess = true;
+        this.successMsgHandler();
       })
-          .catch(function () {
-            console.log('Users successfully imported');
+
+          .catch(() => {
+            console.log('Koleka problem');
+            this.isWarning = true;
+            this.warningMsgHandler()
           });
     },
+    successMsgHandler() {
+      this.isWarning = false
+      setTimeout(() => {
+        this.isSuccess = false
+        this.file = null
+      }, 2000)
+    },
+    warningMsgHandler() {
+      this.isSuccess = false;
+      setTimeout(() => {
+        this.isWarning = false
+        this.file = null
+      }, 2000)
+    },
+
     handleFileUpload() {
       //this.file = this.$refs.file.files[0];
 
