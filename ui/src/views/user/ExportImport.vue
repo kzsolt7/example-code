@@ -3,30 +3,30 @@
 
     <v-row>
 
-      <v-col>
-        <v-card class="col-md-5" height="230">
-          <v-card-title>Import</v-card-title>
-          <v-card-text>
-            <v-file-input
-                color="teal"
-                counter
-                label="Load from file"
-                placeholder="Select your file"
-                prepend-icon="mdi-paperclip"
-                outlined
-                :show-size="1000"
-                v-model="file"
-            >
-              <template v-slot:selection="{ index, text }">
-                <v-chip
-                    v-if="index < 2"
-                    color="teal"
-                    dark
-                    label
-                    small
-                >
-                  {{ text }}
-                </v-chip>
+        <v-col>
+          <v-card class="col-md-5" height="230">
+            <v-card-title>Import</v-card-title>
+            <v-card-text>
+              <v-file-input
+                  color="teal"
+                  counter
+                  label="Load from file"
+                  placeholder="Select your file"
+                  prepend-icon="mdi-paperclip"
+                  outlined
+                  :show-size="1000"
+                  v-model="file"
+              >
+                <template v-slot:selection="{ index, text }">
+                  <v-chip
+                      v-if="index < 2"
+                      color="teal"
+                      dark
+                      label
+                      small
+                  >
+                    {{ text }}
+                  </v-chip>
 
                 <span
                     v-else-if="index === 2"
@@ -47,8 +47,7 @@
         <v-card class="col-md-5" height="230">
           <v-card-title>Export</v-card-title>
           <v-card-text>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dolor magnam maxime mollitia non!
-              Labore
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dolor magnam maxime mollitia non! Labore
               laudantium nisi officia ut! Labore
               laudantium nisi officia ut! Labore
               laudantium nisi officia asd</p>
