@@ -15,7 +15,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-menu left bottom :disabled="!this.$store.getters.getUsername">
+      <v-menu bottom left>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-account-circle-outline</v-icon>
@@ -24,15 +24,21 @@
 
         <v-list>
           <v-list-item>
-            <v-list-item-title>{{ userName }}</v-list-item-title>
+            <v-list-item-content>
+              <v-list-item-title class="text-h6">
+                {{ userName }}
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                Xmanagement
+              </v-list-item-subtitle>
+            </v-list-item-content>
           </v-list-item>
-        </v-list>
-
-        <v-list>
+          <v-divider/>
           <v-list-item @click="logout">
             <v-list-item-title>Logout</v-list-item-title>
           </v-list-item>
         </v-list>
+
       </v-menu>
 
     </v-app-bar>
@@ -56,7 +62,6 @@
 
 <script>
 import sidebar from "@/components/uielement/sidebar";
-
 
 
 export default {
@@ -83,7 +88,7 @@ export default {
 
 
   },
-  methods:{
+  methods: {
     createTimer() {
       const d = new Date();
       this.time = d.toLocaleTimeString();
@@ -103,7 +108,9 @@ export default {
 .fade-enter-active, .fade-leave-active {
   transition: opacity 2s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+{
   opacity: 0;
 }
 </style>
