@@ -66,6 +66,16 @@ export default {
   mounted() {
     this.init()
   },
+  computed:{
+    getRoleItems() {
+      return this.$store.getters.getRoleItems;
+    }
+  },
+  watch:{
+    getRoleItems(value) {
+      this.roleItems = value
+    }
+  },
   methods: {
     saveGroup() {
       if (this.groupName)

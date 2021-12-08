@@ -88,6 +88,9 @@ export default {
 
       return rules
     },
+    getRoleItems() {
+      return this.$store.getters.getRoleItems;
+    }
   },
   methods: {
     saveGroup() {
@@ -131,7 +134,10 @@ export default {
     },
   },
   watch: {
-    groupNameRuleBool: 'validateField'
+    groupNameRuleBool: 'validateField',
+    getRoleItems(value) {
+      this.roleItems = value
+    }
   },
 }
 </script>
