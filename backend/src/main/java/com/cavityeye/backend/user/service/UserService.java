@@ -5,7 +5,9 @@ import com.cavityeye.backend.user.dto.UserDto;
 import com.cavityeye.backend.user.repository.PermissionGroupRepository;
 import com.cavityeye.backend.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.MongoWriteException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -129,6 +132,13 @@ public class UserService {
         var fileContent = mapper.readTree(new String(file.getBytes()));
         var users = mapper.readValue(fileContent.toString(), UserDto[].class);
         var userList = Arrays.stream(users).toList();
-        userList.forEach(r -> userRepository.save(r));
+        userList.forEach(r -> {
+            try {
+                userRepository.insert(r);
+            } catch (Exception e) {
+                log.info(e.getMessage());
+            }
+        });
     }
+
 }
