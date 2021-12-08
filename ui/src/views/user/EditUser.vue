@@ -61,7 +61,7 @@
       </v-form>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-6 mb-16">
       <div v-for="roleItem in roleItems" v-bind:key="roleItem.value">
         <v-checkbox
             :label="roleItem.name"

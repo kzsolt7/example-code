@@ -23,6 +23,12 @@
         </template>
 
         <v-list>
+          <v-list-item>
+            <v-list-item-title>{{ userName }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+
+        <v-list>
           <v-list-item @click="logout">
             <v-list-item-title>Logout</v-list-item-title>
           </v-list-item>
@@ -59,11 +65,13 @@ export default {
     sidebar
   },
   data: () => ({
+    userName: '',
     drawer: false,
     time: new Date().toLocaleTimeString()
   }),
   mounted() {
     if (this.$cookies.get("username") != null) {
+      this.userName = this.$cookies.get("username")
       this.$store.commit("setUserName", this.$cookies.get("username"))
       this.$store.dispatch('getAccess')
       this.$store.dispatch('getPermissions')
@@ -81,11 +89,11 @@ export default {
       this.time = d.toLocaleTimeString();
     },
     logout() {
+      this.$router.push("login");
       this.$store.commit("logout");
       this.$cookies.remove("access-token");
       this.$cookies.remove("refresh-token");
       this.$cookies.remove("username");
-      this.$router.push("login");
     }
   }
 };
