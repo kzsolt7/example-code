@@ -28,6 +28,13 @@
             required
         ></v-text-field>
 
+        <v-text-field
+            v-model="userPassword2"
+            label="Password again (if it's empty, password won't be updated)"
+            type="password"
+            :rules="passwordRules"
+        ></v-text-field>
+
         <v-select
             v-model="groupValue"
             :items="groupItems"
@@ -49,7 +56,7 @@
         ></v-select>
 
         <v-btn color="teal" @click="saveUser" dark>Update</v-btn>
-        <v-btn style="margin-left: 20px" color="grey" @click="$router.go(-1)" dark>Cancel</v-btn>
+        <v-btn style="margin-left: 20px" color="grey" @click="$router.push('/user-list')" dark>Cancel</v-btn>
 
       </v-form>
     </div>
@@ -80,6 +87,7 @@ export default {
       userName: '',
       userEmail: '',
       userPassword: '',
+      userPassword2: '',
       formModel: '',
       activeItems: ['Active', 'Inactive'],
       state: 'Active',
@@ -94,9 +102,9 @@ export default {
       userRules: [
         v => !!v || 'Username is required',
       ],
-      passwordRules: [
-        v => !!v || 'Password is required',
-      ],
+      // passwordRules: [
+      //   v => !!v || 'Password is required',
+      // ],
       id: '',
     }
   },
@@ -131,7 +139,9 @@ export default {
     },
     saveUser() {
       let permissionsToPost = this.permissions.filter(x => !this.permissionsFromGroups.includes(x))
-      if (this.userName)
+      if (this.userName){
+        this.$refs.form.validate();
+        if(this.userPassword == this.userPassword2)
         api.put('/user', {
           id: this.id,
           userName: this.userName,
@@ -146,6 +156,7 @@ export default {
             this.$router.push("/user-list")
           }
         });
+      }
     },
     groupSelectChanged() {
       this.permissions = this.permissions.filter(x => !this.permissionsFromGroups.includes(x))
@@ -171,6 +182,22 @@ export default {
   computed: {
     getRoleList() {
       return this.$store.getters.getRoleItems;
+    },
+    passwordRules() {
+      const rules = []
+      if (this.userPassword) {
+        const rule =
+            v => (!!v && v) === this.userPassword ||
+                'Values do not match'
+
+        rules.push(rule)
+      } else {
+        const rule =
+            v => !!v || 'Password is required'
+        rules.push(rule)
+      }
+
+      return rules
     }
   },
   watch: {

@@ -122,13 +122,13 @@ export default {
             }
           }
       ).then(() => {
-        console.log('Users successfully imported');
+       // console.log('Users successfully imported');
         this.isSuccess = true;
         this.successMsgHandler();
       })
 
           .catch(() => {
-            console.log('Koleka problem');
+            //console.log('Koleka problem');
             this.isWarning = true;
             this.warningMsgHandler()
           });

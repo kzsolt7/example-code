@@ -29,11 +29,11 @@
               solo
           ></v-select>
           <v-btn color="teal" @click="saveGroup" dark>Save</v-btn>
-          <v-btn style="margin-left: 20px" color="grey" @click="$router.go(-1)" dark>Cancel</v-btn>
+          <v-btn style="margin-left: 20px" color="grey" @click="$router.push('/notification')" dark>Cancel</v-btn>
         </v-form>
       </div>
 
-      <div class="col-md-3" style="max-height: 90vh; overflow-y: hidden">
+      <div class="col-md-3">
         <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
@@ -58,7 +58,7 @@
 
         </v-card>
       </div>
-      <div class="col-md-3" style="max-height: 90vh; overflow-y: scroll">
+      <div class="col-md-3">
 
         <v-card class="mt-1" elevation="0">
           <v-card-text>
