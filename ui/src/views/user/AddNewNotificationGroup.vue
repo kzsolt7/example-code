@@ -5,72 +5,78 @@
         {{ warningMessage }}
       </v-alert>
     </transition>
-  <v-row>
-    <div class="col-md-6">
-      <v-form
-          ref="form"
-          v-model="formModel"
-          lazy-validation
-      >
+    <v-row>
+      <div class="col-md-6">
+        <v-form
+            ref="form"
+            v-model="formModel"
+            lazy-validation
+        >
 
+          <v-text-field
+              v-model="groupName"
+              label="Group name"
+              required
+              :rules="rules"
+              @keyup="delRules"
+          ></v-text-field>
+
+          <v-select
+              :items="activeItems"
+              v-model="state"
+              item-color="teal"
+              label="Solo field"
+              solo
+          ></v-select>
+          <v-btn color="teal" @click="saveGroup" dark>Save</v-btn>
+          <v-btn style="margin-left: 20px" color="grey" @click="$router.go(-1)" dark>Cancel</v-btn>
+        </v-form>
+      </div>
+
+      <div class="col-md-3" style="max-height: 90vh; overflow-y: hidden">
         <v-text-field
-            v-model="groupName"
-            label="Group name"
-            required
-            :rules="rules"
-            @keyup="delRules"
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+            @keyup="searchInUsers(search)"
         ></v-text-field>
+        <v-card class="mt-1" elevation="1">
+          <v-card-text>
+            <div v-for="user in unTicked" v-bind:key="user.id">
+              <v-checkbox
+                  :label="user.userName"
+                  color="teal"
+                  :value="user.userName"
+                  hide-details
+                  v-model="usersInGroup"
+                  @click="clear"
+              ></v-checkbox>
+            </div>
+          </v-card-text>
 
-        <v-select
-            :items="activeItems"
-            v-model="state"
-            item-color="teal"
-            label="Solo field"
-            solo
-        ></v-select>
-        <v-btn color="teal" @click="saveGroup" dark>Save</v-btn>
-        <v-btn style="margin-left: 20px" color="grey" @click="$router.go(-1)" dark>Cancel</v-btn>
-      </v-form>
-    </div>
-
-    <div class="col-md-3" style="max-height: 90vh; overflow-y: hidden">
-      <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-          @keyup="searchInUsers(search)"
-      ></v-text-field>
-      <v-card>
-      <div v-for="user in unTicked" v-bind:key="user.id">
-        <v-checkbox
-            :label="user.userName"
-            color="teal"
-            :value="user.userName"
-            hide-details
-            v-model="usersInGroup"
-            @click="clear"
-        ></v-checkbox>
+        </v-card>
       </div>
-      </v-card>
-    </div>
-    <div class="col-md-3" style="max-height: 90vh; overflow-y: scroll">
+      <div class="col-md-3" style="max-height: 90vh; overflow-y: scroll">
 
-    <v-card>
-      <div v-for="user in ticked" v-bind:key="user.id">
-        <v-checkbox
-            :label="user.userName"
-            color="teal"
-            :value="user.userName"
-            hide-details
-            v-model="usersInGroup"
-            @click="clear"
-        ></v-checkbox>
+        <v-card class="mt-1" elevation="0">
+          <v-card-text>
+            <div v-for="user in ticked" v-bind:key="user.id">
+              <v-checkbox
+                  :label="user.userName"
+                  color="teal"
+                  :value="user.userName"
+                  hide-details
+                  v-model="usersInGroup"
+                  @click="clear"
+              ></v-checkbox>
+            </div>
+          </v-card-text>
+
+        </v-card>
       </div>
-    </v-card>
-    </div>
-  </v-row>
+    </v-row>
   </div>
 </template>
 
@@ -95,7 +101,7 @@ export default {
       usersInGroup: [],
       search: '',
       unTicked: [],
-      ticked :[],
+      ticked: [],
       isWarning: false,
       warningMessage: "Group already exists!",
       groupNameRuleBool: false
@@ -136,7 +142,7 @@ export default {
       this.$refs.form.validate()
     },
     delRules() {
-      if (this.groupNameRuleBool == true) {
+      if (this.groupNameRuleBool === true) {
         this.groupNameRuleBool = false;
         setTimeout(() =>
                 this.$refs.form.validate()
@@ -198,7 +204,7 @@ export default {
           }
 
         }
-        this.ticked=ticked
+        this.ticked = ticked
         if (!b) {
           unTicked[j] = this.usersToDisplay[item]
           j++
@@ -215,7 +221,7 @@ export default {
       this.unTicked = unTicked
     }
   },
-  watch:{
+  watch: {
     groupNameRuleBool: 'validateField'
   },
 }

@@ -27,7 +27,7 @@
       </v-form>
     </div>
 
-    <div class="col-md-6" style="max-height: 90vh; overflow-y: scroll">
+    <div class="col-md-6">
 
       <div v-for="roleItem in roleItems" v-bind:key="roleItem.value">
         <v-checkbox
@@ -76,7 +76,7 @@ export default {
           state: this.state
         }).then(r => {
           if (r.status == 200) {
-            VueCookies.set('success' , 'update-success', "2s")
+            VueCookies.set('success', 'update-success', "2s")
             this.$router.push("/permission")
           }
         });

@@ -59,17 +59,22 @@ export default {
         api.get(`/user/byUserName?username=${this.username}`).then(r => {
           if (r.status == 200) {
             r.data.permissions.forEach(role => {
-              if (role == "mng_HasAccessToX") {
+              if (role === "mng_HasAccessToX") {
                 this.$store.commit("setAccess", true)
               }
-
             })
+            this.init()
             this.$store.commit("setRoles", r.data.permissions)
             //console.log(this.$store.getters.getAccess)
           }
         })
       });
 
+    },
+    init() {
+      this.$store.commit("setUserName", this.$cookies.get("username"))
+      this.$store.dispatch('getAccess')
+      this.$store.dispatch('getPermissions')
     }
   }
 }

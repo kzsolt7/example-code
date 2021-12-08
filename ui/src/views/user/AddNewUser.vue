@@ -67,7 +67,7 @@
         </v-form>
       </div>
 
-      <div class="col-md-6" style="position: absolute; top: 0; bottom: 0; right:0; overflow-y: scroll">
+      <div class="col-md-6">
         <div v-for="roleItem in roleItems" v-bind:key="roleItem.value">
           <v-checkbox
               :label="roleItem.name"
@@ -111,8 +111,8 @@ export default {
         //v => !!v || 'Username is required',
       ],
       passwordRules_static: [
-         v => !!v || 'Password is required',
-       ],
+        v => !!v || 'Password is required',
+      ],
       isWarning: false,
       warningMessage: "User already exists!",
       userNameRuleBool: false
@@ -146,127 +146,118 @@ export default {
                 'Values do not match'
 
         rules.push(rule)
-      }
-      else{
+      } else {
         const rule =
-                v => !!v || 'Password is required'
+            v => !!v || 'Password is required'
         rules.push(rule)
       }
 
       return rules
     }
   },
-watch: {
-  getRoleList(value)
-  {
-    this.roleItems = value;
-    this.groupSelectChanged();
+  watch: {
+    getRoleList(value) {
+      this.roleItems = value;
+      this.groupSelectChanged();
 
-  },
-  userNameRuleBool: 'validateField',
-  userPassword2: 'validateField',
-}
-,
-methods: {
-  validateField()
-  {
-    this.$refs.form.validate()
+    },
+    userNameRuleBool: 'validateField',
+    userPassword2: 'validateField',
   }
-,
-  delRules()
-  {
-    if (this.userNameRuleBool == true) {
-      this.userNameRuleBool = false;
+  ,
+  methods: {
+    validateField() {
+      this.$refs.form.validate()
+    }
+    ,
+    delRules() {
+      if (this.userNameRuleBool == true) {
+        this.userNameRuleBool = false;
+        setTimeout(() =>
+                this.$refs.form.validate()
+            , 200)
+      }
+
+    }
+    ,
+
+    saveUser() {
+      this.$refs.form.validate()
+      let permissionsToPost = this.permissions.filter(x => !this.permissionsFromGroups.includes(x))
+      if (this.userName && this.userPassword === this.userPassword2)
+        api.post('/user', {
+          userName: this.userName,
+          email: this.userEmail,
+          password: this.userPassword,
+          permissionGroups: this.groupValue,
+          state: this.state,
+          permissions: permissionsToPost
+        }).then(r => {
+          if (r.status == 200) {
+            VueCookies.set('success', 'new-success', "2s")
+            this.$router.push("/user-list")
+          }
+
+
+        }, err => {
+          if (err.response.status == 409) {
+            this.userExists()
+            this.userNameRuleBool = true;
+            setTimeout(() =>
+                    this.$refs.form.validate()
+                , 200)
+          }
+        });
+
+    }
+    ,
+    init() {
+      api.get('user/permission-group/all').then(r => {
+        this.permissionGroupsObject = r.data
+        for (let item in r.data) {
+          this.groupItems.push(r.data[item].name)
+        }
+        this.groupSelectChanged()
+      })
+    }
+    ,
+    groupSelectChanged() {
+      this.permissions = this.permissions.filter(x => !this.permissionsFromGroups.includes(x))
+      this.permissionsFromGroups = []
+      for (let item in this.groupValue) {
+        for (let elem in this.permissionGroupsObject) {
+          if (this.groupValue[item] == this.permissionGroupsObject[elem].name) {
+            this.permissionsFromGroups.push.apply(this.permissionsFromGroups, this.permissionGroupsObject[elem].permissions)
+          }
+        }
+      }
+      for (let el in this.roleItems) {
+
+        this.roleItems[el].disabled = false
+        for (let item in this.permissionsFromGroups) {
+          if (this.permissionsFromGroups[item] == this.roleItems[el].value) {
+            this.roleItems[el].disabled = true
+
+          }
+        }
+      }
+      this.permissions.push.apply(this.permissions, this.permissionsFromGroups)
+
+    }
+    ,
+    userExists() {
+      this.isWarning = true;
       setTimeout(() =>
-              this.$refs.form.validate()
-          , 200)
+              this.isWarning = false
+          , 2000)
     }
-
+    ,
   }
-,
-
-  saveUser()
-  {
-    this.$refs.form.validate()
-    let permissionsToPost = this.permissions.filter(x => !this.permissionsFromGroups.includes(x))
-    if (this.userName && this.userPassword === this.userPassword2)
-      api.post('/user', {
-        userName: this.userName,
-        email: this.userEmail,
-        password: this.userPassword,
-        permissionGroups: this.groupValue,
-        state: this.state,
-        permissions: permissionsToPost
-      }).then(r => {
-        if (r.status == 200) {
-          VueCookies.set('success', 'new-success', "2s")
-          this.$router.push("/user-list")
-        }
-
-
-      }, err => {
-        if (err.response.status == 409) {
-          this.userExists()
-          this.userNameRuleBool = true;
-          setTimeout(() =>
-                  this.$refs.form.validate()
-              , 200)
-        }
-      });
-
+  ,
+  mounted() {
+    this.init()
   }
-,
-  init()
-  {
-    api.get('user/permission-group/all').then(r => {
-      this.permissionGroupsObject = r.data
-      for (let item in r.data) {
-        this.groupItems.push(r.data[item].name)
-      }
-      this.groupSelectChanged()
-    })
-  }
-,
-  groupSelectChanged()
-  {
-    this.permissions = this.permissions.filter(x => !this.permissionsFromGroups.includes(x))
-    this.permissionsFromGroups = []
-    for (let item in this.groupValue) {
-      for (let elem in this.permissionGroupsObject) {
-        if (this.groupValue[item] == this.permissionGroupsObject[elem].name) {
-          this.permissionsFromGroups.push.apply(this.permissionsFromGroups, this.permissionGroupsObject[elem].permissions)
-        }
-      }
-    }
-    for (let el in this.roleItems) {
-
-      this.roleItems[el].disabled = false
-      for (let item in this.permissionsFromGroups) {
-        if (this.permissionsFromGroups[item] == this.roleItems[el].value) {
-          this.roleItems[el].disabled = true
-
-        }
-      }
-    }
-    this.permissions.push.apply(this.permissions, this.permissionsFromGroups)
-
-  }
-,
-  userExists()
-  {
-    this.isWarning = true;
-    setTimeout(() =>
-            this.isWarning = false
-        , 2000)
-  }
-,
-}
-,
-mounted()
-{
-  this.init()
-}
-,
+  ,
 
 
 }

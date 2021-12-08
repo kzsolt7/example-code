@@ -2,16 +2,16 @@
   <div>
     <transition name="fade">
       <v-alert v-show="isSuccess" type="success">
-        {{successMessage}}
+        {{ successMessage }}
       </v-alert>
     </transition>
 
-  <group-table
-      :headers="headers"
-      header-text="Permission groups"
-      :groups-data="groupsData"
-      @delete-item="getData"
-  ></group-table>
+    <group-table
+        :headers="headers"
+        header-text="Permission groups"
+        :groups-data="groupsData"
+        @delete-item="getData"
+    ></group-table>
   </div>
 </template>
 
@@ -39,7 +39,7 @@ export default {
       ],
       groupsData: [],
       successMessage: '',
-      isSuccess:false
+      isSuccess: false
     }
   },
   created() {
@@ -55,11 +55,11 @@ export default {
       api.get('/user/permission-group/all').then(r => this.groupsData = r.data)
     },
     init() {
-      if (this.$cookies.get("success") == "new-success") {
+      if (this.$cookies.get("success") === "new-success") {
         this.successMessage = "Group successfully created."
         this.isSuccess = true
       }
-      if(this.$cookies.get("success") == "update-success"){
+      if (this.$cookies.get("success") === "update-success") {
         this.successMessage = "Group successfully updated."
         this.isSuccess = true;
       }

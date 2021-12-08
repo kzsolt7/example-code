@@ -1,9 +1,9 @@
 <template>
   <div>
     <transition name="fade">
-    <v-alert v-show="isSuccess" type="success">
-      {{successMessage}}
-    </v-alert>
+      <v-alert v-show="isSuccess" type="success">
+        {{ successMessage }}
+      </v-alert>
     </transition>
     <user-table></user-table>
   </div>
@@ -33,11 +33,11 @@ export default {
   },
   methods: {
     init() {
-      if (this.$cookies.get("success") == "new-success") {
+      if (this.$cookies.get("success") === "new-success") {
         this.successMessage = "User successfully added."
         this.isSuccess = true
       }
-      if(this.$cookies.get("success") == "update-success"){
+      if (this.$cookies.get("success") === "update-success") {
         this.successMessage = "User successfully updated."
         this.isSuccess = true;
       }

@@ -36,29 +36,40 @@
           hide-details
           @keyup="searchInUsers(search)"
       ></v-text-field>
-      <div v-for="user in unTicked" v-bind:key="user.id">
-        <v-checkbox
-            :label="user.userName"
-            color="teal"
-            :value="user.userName"
-            hide-details
-            v-model="usersInGroup"
-            @click="clear"
-        ></v-checkbox>
-      </div>
-    </div> <div class="col-md-3" style="max-height: 90vh; overflow-y: scroll">
 
-    <div v-for="user in ticked" v-bind:key="user.id">
-      <v-checkbox
-          :label="user.userName"
-          color="teal"
-          :value="user.userName"
-          hide-details
-          v-model="usersInGroup"
-          @click="clear"
-      ></v-checkbox>
+      <v-card class="mt-1" elevation="1">
+        <v-card-text>
+          <div v-for="user in unTicked" v-bind:key="user.id">
+            <v-checkbox
+                :label="user.userName"
+                color="teal"
+                :value="user.userName"
+                hide-details
+                v-model="usersInGroup"
+                @click="clear"
+            ></v-checkbox>
+          </div>
+        </v-card-text>
+      </v-card>
+
     </div>
-  </div>
+    <div class="col-md-3" style="max-height: 90vh; overflow-y: scroll">
+      <v-card class="mt-1" elevation="0">
+        <v-card-text>
+          <div v-for="user in ticked" v-bind:key="user.id">
+            <v-checkbox
+                :label="user.userName"
+                color="teal"
+                :value="user.userName"
+                hide-details
+                v-model="usersInGroup"
+                @click="clear"
+            ></v-checkbox>
+          </div>
+        </v-card-text>
+      </v-card>
+
+    </div>
   </v-row>
 
 </template>
@@ -85,7 +96,7 @@ export default {
       usersInGroup: [],
       search: '',
       unTicked: [],
-      ticked :[]
+      ticked: []
     }
   },
   mounted() {
@@ -149,7 +160,7 @@ export default {
           }
 
         }
-        this.ticked=ticked
+        this.ticked = ticked
         if (!b) {
           unTicked[j] = this.usersToDisplay[item]
           j++

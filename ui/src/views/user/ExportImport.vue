@@ -47,7 +47,8 @@
         <v-card class="col-md-5" height="230">
           <v-card-title>Export</v-card-title>
           <v-card-text>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dolor magnam maxime mollitia non! Labore
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dolor magnam maxime mollitia non!
+              Labore
               laudantium nisi officia ut! Labore
               laudantium nisi officia ut! Labore
               laudantium nisi officia asd</p>

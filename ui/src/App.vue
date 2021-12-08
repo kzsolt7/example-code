@@ -63,7 +63,7 @@ export default {
     time: new Date().toLocaleTimeString()
   }),
   mounted() {
-    if (this.$cookies.get("username")) {
+    if (this.$cookies.get("username") != null) {
       this.$store.commit("setUserName", this.$cookies.get("username"))
       this.$store.dispatch('getAccess')
       this.$store.dispatch('getPermissions')
@@ -72,8 +72,6 @@ export default {
     setInterval(() => {
       this.createTimer()
     }, 1000);
-
-    this.$store.dispatch("getPermissions");
 
 
   },
