@@ -1,6 +1,7 @@
 <template>
   <div class="row justify-center">
 
+
     <v-card class="col-md-5 mr-1">
       <v-card-title>Import</v-card-title>
       <v-card-text>
@@ -12,6 +13,7 @@
             prepend-icon="mdi-paperclip"
             outlined
             :show-size="1000"
+            v-model="file"
         >
           <template v-slot:selection="{ index, text }">
             <v-chip
@@ -33,7 +35,7 @@
           </template>
         </v-file-input>
 
-        <v-btn color="teal" dark>Load from file</v-btn>
+        <v-btn @click="importUsers" color="teal" dark>Load from file</v-btn>
 
       </v-card-text>
     </v-card>
@@ -55,21 +57,52 @@ import {api} from "@/api";
 
 export default {
   name: "ExportImport",
+  data() {
+    return {
+      file: null,
+    }
+  },
   methods: {
     exportUsers() {
-      api.get('user/export', { method: 'GET', responseType: 'blob'}).then(response => {
+      api.get('user/export', {method: 'GET', responseType: 'blob'}).then(response => {
         let fileName = response.headers["content-disposition"].toString().split("=")[1];
-          const url = window.URL
-              .createObjectURL(new Blob([response.data]));
-          const link = document.createElement('a');
-          link.href = url;
-          link.setAttribute('download', fileName);
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
+        const url = window.URL
+            .createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       });
+    },
+
+    importUsers() {
+      let formData = new FormData();
+      formData.append('file', this.file);
+
+
+      // You should have a server side REST API
+      api.post('user/import',
+          formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+      ).then(function () {
+        console.log('Users successfully exported');
+      })
+          .catch(function () {
+            console.log('Users successfully imported');
+          });
+    },
+    handleFileUpload() {
+      //this.file = this.$refs.file.files[0];
+
+
     }
   }
+
 }
 </script>
 
