@@ -1,5 +1,10 @@
 <template>
   <div>
+    <transition name="fade">
+      <v-alert max-width="374" class="mx-auto" v-show="isWarning" type="warning">
+        {{ warningMessage }}
+      </v-alert>
+    </transition>
     <v-card
         class="mx-auto pa-8"
         elevation="1"
@@ -41,7 +46,9 @@ export default {
       username: '',
       password: '',
       usernameRules: [],
-      passwordRules: []
+      passwordRules: [],
+      isWarning: false,
+      warningMessage: 'Incorrect username or password'
 
     }
   },
@@ -54,6 +61,10 @@ export default {
           this.$cookies.set("username", r.headers.username, "7200s");
           this.$store.commit("setUserName", r.headers.username)
           this.$router.push("/")
+        }
+      }, err => {
+        if(err.response.status == 401) {
+          this.incorrectWarning()
         }
       }).then(() => {
         api.get(`/user/byUserName?username=${this.username}`).then(r => {
@@ -75,6 +86,12 @@ export default {
       this.$store.commit("setUserName", this.$cookies.get("username"))
       this.$store.dispatch('getAccess')
       this.$store.dispatch('getPermissions')
+    },
+    incorrectWarning() {
+      this.isWarning = true;
+      setTimeout(() => {
+        this.isWarning = false;
+      }, 3000)
     }
   }
 }
