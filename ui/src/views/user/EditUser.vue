@@ -109,6 +109,8 @@ export default {
     }
   },
   mounted() {
+      this.userPassword = ''
+      this.userPassword2 = ''
     this.init();
   },
   methods: {

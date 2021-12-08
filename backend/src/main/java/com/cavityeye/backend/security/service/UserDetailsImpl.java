@@ -1,6 +1,8 @@
 package com.cavityeye.backend.security.service;
 
 import com.cavityeye.backend.user.dto.UserDto;
+import com.cavityeye.backend.user.repository.PermissionGroupRepository;
+import com.cavityeye.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,12 +17,22 @@ import java.util.List;
 public class UserDetailsImpl implements UserDetails {
 
     private final UserDto user;
+    private final PermissionGroupRepository permissionGroupRepository;
+    private final UserService userService;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         List<GrantedAuthority> list = new ArrayList<>();
+
+        Arrays.stream(user.getPermissionGroups()).forEach(group -> {
+            Arrays.stream(permissionGroupRepository.findByName(group).get().getPermissions()).forEach(gr -> {
+                list.add(new SimpleGrantedAuthority("ROLE_" + gr));
+            });
+        });
+
         Arrays.stream(user.getPermissions()).forEach(permission -> list.add(new SimpleGrantedAuthority("ROLE_" + permission)));
+
         return list;
     }
 
