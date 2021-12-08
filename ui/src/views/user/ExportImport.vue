@@ -1,53 +1,61 @@
 <template>
   <div class="row justify-center">
 
+    <v-row>
 
-    <v-card class="col-md-5 mr-1">
-      <v-card-title>Import</v-card-title>
-      <v-card-text>
-        <v-file-input
-            color="teal"
-            counter
-            label="Load from file"
-            placeholder="Select your file"
-            prepend-icon="mdi-paperclip"
-            outlined
-            :show-size="1000"
-            v-model="file"
-        >
-          <template v-slot:selection="{ index, text }">
-            <v-chip
-                v-if="index < 2"
+      <v-col>
+        <v-card class="col-md-5" height="230">
+          <v-card-title>Import</v-card-title>
+          <v-card-text>
+            <v-file-input
                 color="teal"
-                dark
-                label
-                small
+                counter
+                label="Load from file"
+                placeholder="Select your file"
+                prepend-icon="mdi-paperclip"
+                outlined
+                :show-size="1000"
+                v-model="file"
             >
-              {{ text }}
-            </v-chip>
+              <template v-slot:selection="{ index, text }">
+                <v-chip
+                    v-if="index < 2"
+                    color="teal"
+                    dark
+                    label
+                    small
+                >
+                  {{ text }}
+                </v-chip>
 
-            <span
-                v-else-if="index === 2"
-                class="text-overline grey--text text--darken-3 mx-2"
-            >
+                <span
+                    v-else-if="index === 2"
+                    class="text-overline grey--text text--darken-3 mx-2"
+                >
         +{{ files.length - 2 }} File(s)
       </span>
-          </template>
-        </v-file-input>
+              </template>
+            </v-file-input>
 
-        <v-btn @click="importUsers" color="teal" dark>Load from file</v-btn>
+            <v-btn @click="importUsers" color="teal" dark>Load from file</v-btn>
 
-      </v-card-text>
-    </v-card>
+          </v-card-text>
+        </v-card>
+      </v-col>
 
-    <v-card class="col-md-5 ml-1">
-      <v-card-title>Export</v-card-title>
-      <v-card-text>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dolor magnam maxime mollitia non! Labore
-          laudantium nisi officia ut! At beatae consequuntur ea fugit laudantium </p>
-        <v-btn color="teal" dark @click="exportUsers">Save to file</v-btn>
-      </v-card-text>
-    </v-card>
+      <v-col>
+        <v-card class="col-md-5" height="230">
+          <v-card-title>Export</v-card-title>
+          <v-card-text>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dolor magnam maxime mollitia non! Labore
+              laudantium nisi officia ut! Labore
+              laudantium nisi officia ut! Labore
+              laudantium nisi officia ut!</p>
+            <v-btn color="teal" dark @click="exportUsers">Save to file</v-btn>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
 
   </div>
 </template>
