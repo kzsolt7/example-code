@@ -89,7 +89,7 @@ public class UserService {
             permissions[i] = groupService.getPermissions().get(i).getValue();
         }
 
-        String[] persmissionGroups = {"admin"};
+        String[] permissionGroups = {"admin"};
 
         var user = new UserDto();
         var existUser = userRepository.findByUserName("ce");
@@ -103,7 +103,7 @@ public class UserService {
 
             user.setUserName("ce");
             user.setEmail("ce@cavityeye.com");
-            user.setPermissionGroups(persmissionGroups);
+            user.setPermissionGroups(permissionGroups);
             user.setPassword(new BCryptPasswordEncoder().encode("cesuper"));
             user.setPermissions(permissions);
             user.setState("Active");
