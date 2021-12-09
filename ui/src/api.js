@@ -29,14 +29,14 @@ api.interceptors.response.use(
         return Promise.resolve(response);
     },
     error => {
-        //TODO handle 403 and 401 difference
+        //TODO handle handle 401
         if(error.response.status === 401){
             if (getCookie("refresh-token")) {
                 api.post('/refreshtoken?refreshtoken=' + getCookie("refresh-token")).then(r => {
                     if (r.status === 200) {
-                        setCookie("access-token", r.headers.authorization, "3600");
+                        setCookie("access-token", r.headers.authorization, "20");
                         setCookie("refresh-token", r.headers.refresh, "7200");
-                        setCookie("username", r.headers.username, "7200");
+                        setCookie("username", r.headers.username, "20");
                     }
 
                 })
