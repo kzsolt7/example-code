@@ -56,9 +56,9 @@ export default {
     login() {
       api.post(`authenticate?username=${this.username}&password=${this.password}`).then(r => {
         if (r.status === 200) {
-          this.$cookies.set("access-token", r.headers.authorization, "3600s");
+          this.$cookies.set("access-token", r.headers.authorization, "20s");
           this.$cookies.set("refresh-token", r.headers.refresh, "7200s");
-          this.$cookies.set("username", r.headers.username, "7200s");
+          this.$cookies.set("username", r.headers.username, "20s");
           this.$store.commit("setUserName", r.headers.username)
           this.$router.push("/")
         }

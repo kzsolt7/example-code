@@ -49,7 +49,7 @@ public class RefreshTokenService {
                 .setIssuer(SecurityConstants.TOKEN_ISSUER)
                 .setAudience(SecurityConstants.TOKEN_AUDIENCE)
                 .setSubject(parsedToken.getBody().get("sub").toString())
-                .setExpiration(Date.from(Instant.now().plusMillis(864000000)))
+                .setExpiration(Date.from(Instant.now().plusMillis(20000)))
                 .claim("rol", roles)
                 .compact();
 
@@ -59,7 +59,7 @@ public class RefreshTokenService {
                 .setIssuer(SecurityConstants.TOKEN_ISSUER)
                 .setAudience(SecurityConstants.TOKEN_AUDIENCE)
                 .setSubject(parsedToken.getBody().get("sub").toString())
-                .setExpiration(Date.from(Instant.now().plusMillis(86400000000L)))
+                .setExpiration(Date.from(Instant.now().plusMillis(7200000)))
                 .compact();
 
             headers.add("Authorization", SecurityConstants.TOKEN_PREFIX + newToken);

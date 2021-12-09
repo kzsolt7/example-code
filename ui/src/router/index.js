@@ -122,16 +122,16 @@ router.beforeEach((to, from, next) => {
 
             api.post('/refreshtoken?refreshtoken=' + window.$cookies.get("refresh-token")).then(r => {
                 if (r.status === 200) {
-                    setCookie("access-token", r.headers.authorization, "3600");
+                    setCookie("access-token", r.headers.authorization, "20");
                     setCookie("refresh-token", r.headers.refresh, "7200");
-                    setCookie("username", r.headers.username, "7200");
+                    setCookie("username", r.headers.username, "20");
                 }
 
             })
 
         }
 
-        if (!window.$cookies.get("access-token")) {
+        if (!window.$cookies.get("access-token") && !window.$cookies.get("refresh-token")) {
             router.push('login')
         }
     }
@@ -140,7 +140,7 @@ router.beforeEach((to, from, next) => {
 
 function setCookie(cname, cvalue, exsecs) {
     const d = new Date();
-    d.setTime(d.getTime() + (exsecs *  1000));
+    d.setTime(d.getTime() + (exsecs * 1000));
     let expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
