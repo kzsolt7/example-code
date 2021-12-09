@@ -12,6 +12,7 @@ import AddNewNotificationGroup from "@/views/user/AddNewNotificationGroup";
 import EditPermissionGroup from "@/views/user/EditPermissionGroup";
 import EditNotificationGroup from "@/views/user/EditNotificationGroup";
 import Login from "@/views/Login";
+import {api} from "@/api";
 
 Vue.use(VueRouter)
 
@@ -117,11 +118,31 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!window.$cookies.get("access-token") && window.$cookies.get("refresh-token")) {
+
+            api.post('/refreshtoken?refreshtoken=' + window.$cookies.get("refresh-token")).then(r => {
+                if (r.status === 200) {
+                    setCookie("access-token", r.headers.authorization, "3600");
+                    setCookie("refresh-token", r.headers.refresh, "7200");
+                    setCookie("username", r.headers.username, "7200");
+                }
+
+            })
+
+        }
+
         if (!window.$cookies.get("access-token")) {
             router.push('login')
         }
     }
     next();
 })
+
+function setCookie(cname, cvalue, exsecs) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exsecs *  1000));
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
 
 export default router

@@ -111,7 +111,7 @@ public class UserService {
         }
     }
 
-    private String[] UserPermission(UserDto user) {
+    public String[] UserPermission(UserDto user) {
         List<String> userPermissions = new ArrayList<>();
 
         Arrays.stream(user.getPermissions()).forEach(r -> userPermissions.add(r));

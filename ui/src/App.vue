@@ -5,7 +5,7 @@
         color="white"
         dense
         elevation="1"
-        v-if="this.$cookies.get('access-token')"
+        v-if="this.$cookies.get('access-token') || this.$cookies.get('refresh-token')"
     >
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 

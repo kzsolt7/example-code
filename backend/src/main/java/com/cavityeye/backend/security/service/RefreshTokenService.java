@@ -2,6 +2,7 @@ package com.cavityeye.backend.security.service;
 
 import com.cavityeye.backend.security.SecurityConstants;
 import com.cavityeye.backend.user.repository.UserRepository;
+import com.cavityeye.backend.user.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -21,6 +22,7 @@ import java.util.Date;
 public class RefreshTokenService {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
     public ResponseEntity<String> generateNewAccessToken(String token) {
 
@@ -37,9 +39,9 @@ public class RefreshTokenService {
 
         if (user.isPresent() && exp > Instant.now().getEpochSecond()) {
 
-            var userRoles = Arrays.stream(user.get().getPermissions()).toList();
-            var roles = userRoles.stream()
-                    .map(role -> "ROLE_" + role).toList();
+            var userPermissionGruop = userService.UserPermission(user.get());
+
+            var roles = Arrays.stream(userPermissionGruop).map(role -> "ROLE_" + role).toList();
 
             String newToken = Jwts.builder()
                 .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
