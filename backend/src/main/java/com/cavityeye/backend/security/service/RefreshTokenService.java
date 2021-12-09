@@ -62,6 +62,7 @@ public class RefreshTokenService {
 
             headers.add("Authorization", SecurityConstants.TOKEN_PREFIX + newToken);
             headers.add("Refresh", refresToken);
+            headers.add("username", user.get().getUserName());
 
             return ResponseEntity.ok().headers(headers).body("");
 
