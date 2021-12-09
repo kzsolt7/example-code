@@ -75,6 +75,7 @@ export default {
     time: new Date().toLocaleTimeString()
   }),
   mounted() {
+
     if (this.$cookies.get("username") != null) {
       this.userName = this.$store.getters.getUsername
       this.$store.commit("setUserName", this.$cookies.get("username"))

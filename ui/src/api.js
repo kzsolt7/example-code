@@ -14,7 +14,6 @@ api.interceptors.request.use(
             config.headers.common.Authorization = `${token}`;
         }
 
-
         return config;
     },
     error => Promise.reject(error)
@@ -37,13 +36,14 @@ api.interceptors.response.use(
                         setCookie("access-token", r.headers.authorization, "20");
                         setCookie("refresh-token", r.headers.refresh, "7200");
                         setCookie("username", r.headers.username, "20");
-                    }
 
+                    }
                 })
 
             }else{
                 router.push('/login');
             }
+            return api.request(error.config)
         }
         if(error.response.status == 409){
             return Promise.reject(error);

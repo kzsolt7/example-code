@@ -114,7 +114,7 @@ const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
     routes
-})
+});
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
@@ -126,16 +126,17 @@ router.beforeEach((to, from, next) => {
                     setCookie("refresh-token", r.headers.refresh, "7200");
                     setCookie("username", r.headers.username, "20");
                 }
-
             })
-
         }
 
         if (!window.$cookies.get("access-token") && !window.$cookies.get("refresh-token")) {
             router.push('login')
         }
+
+        setTimeout(() => next(), 200);
+    } else {
+        next()
     }
-    next();
 })
 
 function setCookie(cname, cvalue, exsecs) {
