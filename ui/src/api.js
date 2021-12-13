@@ -43,7 +43,10 @@ api.interceptors.response.use(
             }else{
                 router.push('/login');
             }
-            return api.request(error.config)
+
+            if (getCookie("refresh-token")){
+                return api.request(error.config)
+            }
         }
         if(error.response.status == 409){
             return Promise.reject(error);
