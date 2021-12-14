@@ -58,7 +58,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .setIssuer(SecurityConstants.TOKEN_ISSUER)
                 .setAudience(SecurityConstants.TOKEN_AUDIENCE)
                 .setSubject(user.getUsername())
-                .setExpiration(Date.from(Instant.now().plusMillis(20000)))
+                .setExpiration(Date.from(Instant.now().plusMillis(1296000000L)))
                 .claim("rol", roles)
                 .compact();
 
@@ -68,7 +68,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .setIssuer(SecurityConstants.TOKEN_ISSUER)
                 .setAudience(SecurityConstants.TOKEN_AUDIENCE)
                 .setSubject(user.getUsername())
-                .setExpiration(Date.from(Instant.now().plusMillis(7200000)))
+                .setExpiration(Date.from(Instant.now().plusMillis(2592000000L)))
                 .compact();
 
         response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token);

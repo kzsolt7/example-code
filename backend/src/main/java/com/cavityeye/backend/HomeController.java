@@ -23,6 +23,7 @@ public class HomeController {
             "/clamp-analysis",
             "/network-management",
             "/system-update",
+            "/login"
     })
     public String aboutForward() {
         return "forward:/";

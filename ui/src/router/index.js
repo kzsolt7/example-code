@@ -122,9 +122,9 @@ router.beforeEach((to, from, next) => {
 
             api.post('/refreshtoken?refreshtoken=' + window.$cookies.get("refresh-token")).then(r => {
                 if (r.status === 200) {
-                    setCookie("access-token", r.headers.authorization, "20");
-                    setCookie("refresh-token", r.headers.refresh, "7200");
-                    setCookie("username", r.headers.username, "20");
+                    setCookie("access-token", r.headers.authorization, "1296000");
+                    setCookie("refresh-token", r.headers.refresh, "2592000");
+                    setCookie("username", r.headers.username, "1296000");
                 }
             })
         }
@@ -136,6 +136,9 @@ router.beforeEach((to, from, next) => {
         setTimeout(() => next(), 200);
     } else {
         next()
+    }
+    if(to.name == 'login' && window.$cookies.get('access-token')){
+        setTimeout(() => next('/'), 300);
     }
 })
 
