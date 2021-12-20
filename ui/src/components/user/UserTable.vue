@@ -50,6 +50,7 @@
           small
           class="mr-2"
           @click="editItem(item)"
+          :disabled="isAdmin(item)"
       >
         mdi-pencil
       </v-icon>
@@ -120,7 +121,9 @@ export default {
     },
     //id-t át kell adni paraméterként
     editItem(item) {
-      this.$router.push("/edit-user/" + item.id)
+      if (item.userName != "ce") {
+        this.$router.push("/edit-user/" + item.id)
+      }
     },
 
     deleteItem(item) {
@@ -142,6 +145,13 @@ export default {
         this.editedIndex = -1
       })
     },
+    isAdmin(item) {
+      if (item.userName == "ce") {
+        return true;
+      } else {
+        return false;
+      }
+    }
   },
 }
 </script>
