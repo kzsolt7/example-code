@@ -2,8 +2,9 @@
   <v-app>
     <v-app-bar
         app
-        color="white"
+        color="teal"
         dense
+        dark
         elevation="1"
         v-if="this.$cookies.get('access-token') || this.$cookies.get('refresh-token')"
     >
