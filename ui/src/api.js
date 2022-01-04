@@ -33,9 +33,9 @@ api.interceptors.response.use(
             if (getCookie("refresh-token")) {
                 api.post('/refreshtoken?refreshtoken=' + getCookie("refresh-token")).then(r => {
                     if (r.status === 200) {
-                        setCookie("access-token", r.headers.authorization, "20");
-                        setCookie("refresh-token", r.headers.refresh, "7200");
-                        setCookie("username", r.headers.username, "20");
+                        setCookie("access-token", r.headers.authorization, "1296000");
+                        setCookie("refresh-token", r.headers.refresh, "2592000");
+                        setCookie("username", r.headers.username, "1296000");
 
                     }
                 })
