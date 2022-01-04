@@ -56,7 +56,6 @@
         {{ new Date().getFullYear() }} — <strong>Cavity eye</strong>
       </v-col>
     </v-footer>
-
   </v-app>
 </template>
 
