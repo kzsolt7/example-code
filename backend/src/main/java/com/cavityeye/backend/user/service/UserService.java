@@ -101,10 +101,10 @@ public class UserService {
             permissionGroup.setPermissions(permissions);
             permissionGroupRepository.save(permissionGroup);
 
-            user.setUserName("ce");
-            user.setEmail("ce@cavityeye.com");
+            user.setUserName("user");
+            user.setEmail("user@devtools.hu");
             user.setPermissionGroups(permissionGroups);
-            user.setPassword(new BCryptPasswordEncoder().encode("cesuper"));
+            user.setPassword(new BCryptPasswordEncoder().encode("superuser"));
             user.setPermissions(permissions);
             user.setState("Active");
             userRepository.save(user);
